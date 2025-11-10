@@ -11,6 +11,19 @@ import {
 
 const DESKTOP_BREAKPOINT = 1024;
 
+const palette = {
+  primary: "var(--color-primary)",
+  primaryDark: "var(--color-primary-dark)",
+  primaryHover: "var(--color-primary-hover)",
+  surface: "rgba(255, 255, 255, 0.72)",
+  surfaceStrong: "rgba(249, 251, 254, 0.9)",
+  glass: "rgba(255, 255, 255, 0.82)",
+  border: "var(--color-border)",
+  textMain: "var(--color-text-main)",
+  textSecondary: "var(--color-text-secondary)",
+  divider: "var(--color-divider)",
+};
+
 type DrawerNavItem = {
   label: string;
   to?: string;
@@ -37,6 +50,23 @@ const drawerNavItems: DrawerNavItem[] = [
   { label: "Help Center", to: "/support" },
 ];
 
+type LanguageOption = {
+  code: string;
+  label: string;
+  nativeLabel: string;
+  flag: string;
+};
+
+const languageOptions: LanguageOption[] = [
+  { code: "en", label: "English", nativeLabel: "English", flag: "🇺🇸" },
+  { code: "ko", label: "Korean", nativeLabel: "한국어", flag: "🇰🇷" },
+  { code: "my", label: "Burmese", nativeLabel: "မြန်မာ", flag: "🇲🇲" },
+  { code: "mn", label: "Mongolian", nativeLabel: "Монгол", flag: "🇲🇳" },
+];
+
+const getLanguageByCode = (code: string) =>
+  languageOptions.find((option) => option.code === code) ?? languageOptions[0];
+
 const focusableSelectors = [
   "a[href]",
   "button:not([disabled])",
@@ -50,6 +80,12 @@ export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [openSection, setOpenSection] = useState<string | null>(null);
+  const [language, setLanguage] = useState(() => {
+    if (typeof window === "undefined") {
+      return "en";
+    }
+    return window.localStorage.getItem("kmong-language") ?? "en";
+  });
   const [isDesktop, setIsDesktop] = useState(() => {
     if (typeof window === "undefined") {
       return true;
@@ -70,6 +106,11 @@ export const Navbar = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    window.localStorage.setItem("kmong-language", language);
+  }, [language]);
+
   const lockScroll = isMenuOpen || isSearchOpen;
   useEffect(() => {
     if (lockScroll) {
@@ -88,6 +129,8 @@ export const Navbar = () => {
         onOpenSearch={() => setIsSearchOpen(true)}
         isSearchOpen={isSearchOpen}
         closeSearch={() => setIsSearchOpen(false)}
+        language={language}
+        onLanguageChange={setLanguage}
       />
     );
   }
@@ -98,6 +141,8 @@ export const Navbar = () => {
         onMenuToggle={() => setIsMenuOpen((prev) => !prev)}
         onSearchToggle={() => setIsSearchOpen(true)}
         isMenuOpen={isMenuOpen}
+        language={language}
+        onLanguageChange={setLanguage}
       />
       <MobileDrawer
         isOpen={isMenuOpen}
@@ -110,6 +155,7 @@ export const Navbar = () => {
       <MobileSearchSheet
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
+        language={language}
       />
     </>
   );
@@ -119,10 +165,14 @@ const DesktopNavbar = ({
   onOpenSearch,
   isSearchOpen,
   closeSearch,
+  language,
+  onLanguageChange,
 }: {
   onOpenSearch: () => void;
   isSearchOpen: boolean;
   closeSearch: () => void;
+  language: string;
+  onLanguageChange: (code: string) => void;
 }) => {
   return (
     <header
@@ -130,10 +180,11 @@ const DesktopNavbar = ({
         position: "sticky",
         top: 0,
         zIndex: 10,
-        backgroundColor: "rgba(255, 255, 255, 0.95)",
-        backdropFilter: "blur(12px)",
-        borderBottom: "1px solid rgba(0, 153, 255, 0.1)",
-        padding: "16px 0",
+        backgroundColor: palette.surface,
+        backdropFilter: "blur(14px)",
+        borderBottom: `1px solid ${palette.border}`,
+        boxShadow: "0 6px 20px rgba(120, 150, 190, 0.15)",
+        padding: "18px 0",
       }}
     >
       <div
@@ -147,7 +198,7 @@ const DesktopNavbar = ({
       >
         <Link
           to="/"
-          style={{ fontWeight: 700, fontSize: "1.25rem", color: "#0099ff" }}
+          style={{ fontWeight: 700, fontSize: "1.25rem", color: palette.primaryDark }}
         >
           kmong
         </Link>
@@ -158,31 +209,31 @@ const DesktopNavbar = ({
         >
           <Link
             to="/categories"
-            style={{ color: "#707070", fontWeight: 500, textDecoration: "none" }}
+            style={{ color: palette.textSecondary, fontWeight: 500, textDecoration: "none" }}
           >
             Categories
           </Link>
           <Link
             to="/services"
-            style={{ color: "#707070", fontWeight: 500, textDecoration: "none" }}
+            style={{ color: palette.textSecondary, fontWeight: 500, textDecoration: "none" }}
           >
             Services
           </Link>
           <Link
             to="/for-freelancers"
-            style={{ color: "#707070", fontWeight: 500, textDecoration: "none" }}
+            style={{ color: palette.textSecondary, fontWeight: 500, textDecoration: "none" }}
           >
             For Freelancers
           </Link>
           <Link
             to="/freelancers"
-            style={{ color: "#707070", fontWeight: 500, textDecoration: "none" }}
+            style={{ color: palette.textSecondary, fontWeight: 500, textDecoration: "none" }}
           >
             Featured Talent
           </Link>
           <Link
             to="/pricing"
-            style={{ color: "#707070", fontWeight: 500, textDecoration: "none" }}
+            style={{ color: palette.textSecondary, fontWeight: 500, textDecoration: "none" }}
           >
             Pricing
           </Link>
@@ -195,38 +246,26 @@ const DesktopNavbar = ({
               height: "44px",
               width: "44px",
               borderRadius: "999px",
-              border: "1px solid #eaf2f7",
-              background: "transparent",
+              border: `1px solid ${palette.border}`,
+              background: "rgba(255,255,255,0.6)",
               display: "grid",
               placeItems: "center",
-              color: "#0099ff",
+              color: palette.primaryDark,
               cursor: "pointer",
             }}
             aria-label="Open search"
           >
             <span aria-hidden="true">🔍</span>
           </button>
-          <button
-            style={{
-              background: "transparent",
-              border: "1px solid #eaf2f7",
-              borderRadius: "999px",
-              padding: "8px 16px",
-              color: "#0099ff",
-              cursor: "pointer",
-            }}
-            aria-label="Select language"
-          >
-            EN ▼
-          </button>
+          <LanguageSelector value={language} onChange={onLanguageChange} />
           <Link
             to="/login"
             style={{
               background: "transparent",
-              border: "1px solid #eaf2f7",
+              border: `1px solid ${palette.border}`,
               borderRadius: "999px",
               padding: "8px 16px",
-              color: "#0099ff",
+              color: palette.primaryDark,
               fontWeight: 600,
               cursor: "pointer",
               textDecoration: "none",
@@ -237,7 +276,7 @@ const DesktopNavbar = ({
           <Link
             to="/signup"
             style={{
-              background: "#0099ff",
+              background: palette.primary,
               border: "none",
               borderRadius: "999px",
               padding: "8px 24px",
@@ -254,6 +293,7 @@ const DesktopNavbar = ({
       <MobileSearchSheet
         isOpen={isSearchOpen}
         onClose={closeSearch}
+    language={language}
         isDesktop
       />
     </header>
@@ -264,10 +304,14 @@ const MobileHeader = ({
   onMenuToggle,
   onSearchToggle,
   isMenuOpen,
+  language,
+  onLanguageChange,
 }: {
   onMenuToggle: () => void;
   onSearchToggle: () => void;
   isMenuOpen: boolean;
+  language: string;
+  onLanguageChange: (code: string) => void;
 }) => {
   return (
     <header
@@ -294,7 +338,7 @@ const MobileHeader = ({
       >
         <Link
           to="/"
-          style={{ fontWeight: 700, fontSize: "1.2rem", color: "#0099ff" }}
+          style={{ fontWeight: 700, fontSize: "1.2rem", color: palette.primaryDark }}
           aria-label="Go to homepage"
         >
           kmong
@@ -306,11 +350,11 @@ const MobileHeader = ({
             height: "44px",
             width: "44px",
             borderRadius: "22px",
-            border: "1px solid #eaf2f7",
-            background: "#ffffff",
+            border: `1px solid ${palette.border}`,
+            background: "rgba(255,255,255,0.75)",
             display: "grid",
             placeItems: "center",
-            color: "#0099ff",
+            color: palette.primaryDark,
             cursor: "pointer",
           }}
           aria-label="Open search"
@@ -322,27 +366,15 @@ const MobileHeader = ({
           style={{ display: "flex", alignItems: "center", gap: "8px" }}
           aria-label="Actions"
         >
-          <button
-            style={{
-              borderRadius: "999px",
-              border: "1px solid #eaf2f7",
-              padding: "8px 14px",
-              background: "#ffffff",
-              color: "#0099ff",
-              fontWeight: 600,
-              cursor: "pointer",
-            }}
-          >
-            EN ▼
-          </button>
+          <LanguageSelector value={language} onChange={onLanguageChange} variant="chip" />
           <Link
             to="/login"
             style={{
               borderRadius: "999px",
-              border: "1px solid #eaf2f7",
+              border: `1px solid ${palette.border}`,
               padding: "8px 16px",
-              background: "#ffffff",
-              color: "#0099ff",
+              background: "rgba(255,255,255,0.78)",
+              color: palette.primaryDark,
               fontWeight: 600,
               textDecoration: "none",
             }}
@@ -358,7 +390,7 @@ const MobileHeader = ({
               width: "44px",
               borderRadius: "22px",
               border: "none",
-              background: "#0099ff",
+              background: palette.primary,
               color: "#ffffff",
               fontSize: "20px",
               cursor: "pointer",
@@ -480,7 +512,7 @@ const MobileDrawer = ({
               textAlign: "center",
               padding: "14px 18px",
               borderRadius: "999px",
-              background: "#0099ff",
+              background: palette.primary,
               color: "#ffffff",
               fontWeight: 600,
               textDecoration: "none",
@@ -498,9 +530,9 @@ const MobileDrawer = ({
               textAlign: "center",
               padding: "14px 18px",
               borderRadius: "999px",
-              border: "1px solid #eaf2f7",
-              background: "#ffffff",
-              color: "#0099ff",
+              border: `1px solid ${palette.border}`,
+              background: palette.surfaceStrong,
+              color: palette.primaryDark,
               fontWeight: 600,
               textDecoration: "none",
             }}
@@ -581,7 +613,7 @@ const MobileDrawer = ({
                           textAlign: "left",
                           padding: "12px 40px",
                           fontSize: "0.95rem",
-                          color: "#5e6a74",
+                          color: palette.textSecondary,
                           cursor: "pointer",
                         }}
                       >
@@ -598,10 +630,10 @@ const MobileDrawer = ({
         <div
           style={{
             padding: "16px 24px calc(env(safe-area-inset-bottom, 0px) + 24px)",
-            borderTop: "1px solid #eaf2f7",
+            borderTop: `1px solid ${palette.border}`,
             display: "grid",
             gap: "12px",
-            background: "#ffffff",
+            background: palette.surfaceStrong,
           }}
         >
           <button
@@ -610,11 +642,13 @@ const MobileDrawer = ({
             }}
             style={{
               borderRadius: "16px",
-              border: "1px solid #0099ff",
-              background: "#0099ff",
+              border: "none",
+              background: palette.primary,
               color: "#ffffff",
               fontWeight: 600,
               padding: "16px",
+              cursor: "pointer",
+              boxShadow: "0 12px 28px rgba(92, 168, 255, 0.28)",
             }}
           >
             Post a Request
@@ -625,11 +659,12 @@ const MobileDrawer = ({
             }}
             style={{
               borderRadius: "16px",
-              border: "1px solid #eaf2f7",
-              background: "#ffffff",
-              color: "#0099ff",
+              border: `1px solid ${palette.border}`,
+              background: "rgba(255,255,255,0.75)",
+              color: palette.primaryDark,
               fontWeight: 600,
               padding: "16px",
+              cursor: "pointer",
             }}
           >
             Create a Service
@@ -640,18 +675,187 @@ const MobileDrawer = ({
   );
 };
 
+const LanguageSelector = ({
+  value,
+  onChange,
+  variant = "desktop",
+}: {
+  value: string;
+  onChange: (code: string) => void;
+  variant?: "desktop" | "chip";
+}) => {
+  const [open, setOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const menuRef = useRef<HTMLDivElement | null>(null);
+  const activeLanguage = getLanguageByCode(value);
+
+  useEffect(() => {
+    if (!open) return;
+    const handlePointer = (event: MouseEvent | TouchEvent) => {
+      if (
+        menuRef.current?.contains(event.target as Node) ||
+        triggerRef.current?.contains(event.target as Node)
+      ) {
+        return;
+      }
+      setOpen(false);
+    };
+    const handleKeydown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+        triggerRef.current?.focus();
+      }
+    };
+    document.addEventListener("mousedown", handlePointer);
+    document.addEventListener("touchstart", handlePointer);
+    document.addEventListener("keydown", handleKeydown);
+    return () => {
+      document.removeEventListener("mousedown", handlePointer);
+      document.removeEventListener("touchstart", handlePointer);
+      document.removeEventListener("keydown", handleKeydown);
+    };
+  }, [open]);
+
+  const baseButtonStyles =
+    variant === "chip"
+      ? {
+          borderRadius: "999px",
+          border: `1px solid ${palette.border}`,
+          padding: "8px 14px",
+          background: "rgba(255,255,255,0.75)",
+          color: palette.primaryDark,
+          fontWeight: 600,
+          cursor: "pointer",
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "8px",
+        }
+      : {
+          background: "transparent",
+          border: `1px solid ${palette.border}`,
+          borderRadius: "999px",
+          padding: "8px 16px",
+          color: palette.primaryDark,
+          cursor: "pointer",
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "10px",
+          fontWeight: 600,
+        };
+
+  return (
+    <div style={{ position: "relative" }}>
+      <button
+        ref={triggerRef}
+        type="button"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        onClick={() => setOpen((prev) => !prev)}
+        style={baseButtonStyles}
+      >
+        <span aria-hidden="true">{activeLanguage.flag}</span>
+        <span>{variant === "chip" ? activeLanguage.code.toUpperCase() : activeLanguage.label}</span>
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          style={{
+            transition: "transform 0.2s ease",
+            transform: open ? "rotate(180deg)" : "rotate(0deg)",
+          }}
+        >
+          <path
+            d="M6 9l6 6 6-6"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            fill="none"
+          />
+        </svg>
+      </button>
+      {open ? (
+        <div
+          ref={menuRef}
+          role="listbox"
+          aria-label="Select language"
+          style={{
+            position: "absolute",
+            top: "calc(100% + 8px)",
+            right: 0,
+            minWidth: "160px",
+            background: "rgba(255, 255, 255, 0.92)",
+            borderRadius: "16px",
+            border: `1px solid ${palette.border}`,
+            boxShadow: "0 24px 48px rgba(120, 150, 190, 0.22)",
+            padding: "8px",
+            zIndex: 80,
+            display: "grid",
+            gap: "4px",
+          }}
+        >
+          {languageOptions.map((option) => {
+            const isActive = option.code === activeLanguage.code;
+            return (
+              <button
+                key={option.code}
+                type="button"
+                role="option"
+                aria-selected={isActive}
+                onClick={() => {
+                  onChange(option.code);
+                  setOpen(false);
+                  triggerRef.current?.focus();
+                }}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px",
+                  borderRadius: "12px",
+                  border: "none",
+                  padding: "10px 12px",
+                  textAlign: "left",
+                  cursor: "pointer",
+                  background: isActive ? "rgba(92, 168, 255, 0.16)" : "transparent",
+                  color: palette.textMain,
+                  fontWeight: isActive ? 600 : 500,
+                }}
+              >
+                <span aria-hidden="true" style={{ fontSize: "1.2rem" }}>
+                  {option.flag}
+                </span>
+                <span style={{ display: "grid" }}>
+                  <span>{option.label}</span>
+                  <span style={{ fontSize: "0.8rem", color: palette.textSecondary }}>{option.nativeLabel}</span>
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      ) : null}
+    </div>
+  );
+};
+
 const MobileSearchSheet = ({
   isOpen,
   onClose,
   isDesktop = false,
+  language,
 }: {
   isOpen: boolean;
   onClose: () => void;
   isDesktop?: boolean;
+  language?: string;
 }) => {
   const sheetRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
+  const activeLanguage = useMemo(
+    () => getLanguageByCode(language ?? "en"),
+    [language]
+  );
   const recentSearches = useMemo(
     () => ["Brand identity", "Webflow development", "Motion graphics"],
     []
@@ -736,26 +940,78 @@ const MobileSearchSheet = ({
           borderBottomRightRadius: isDesktop ? "24px" : "20px",
           transform: isOpen ? "translateY(0)" : "translateY(-100%)",
           transition: "transform 220ms ease-out",
-          paddingTop: "calc(env(safe-area-inset-top, 0px) + 24px)",
+          paddingTop: "calc(env(safe-area-inset-top, 0px) + 16px)",
           paddingBottom: "24px",
           paddingInline: "24px",
           maxHeight: "90vh",
           overflowY: "auto",
         }}
       >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginBottom: "16px",
+            gap: "12px",
+          }}
+        >
+          <span
+            style={{
+              fontSize: "0.95rem",
+              fontWeight: 600,
+              color: "#0a0a0a",
+            }}
+          >
+            Search services
+          </span>
+          <button
+            type="button"
+            onClick={() => {
+              setQuery("");
+              onClose();
+            }}
+            style={{
+              border: "none",
+              background: "transparent",
+              color: palette.primaryDark,
+              fontWeight: 600,
+              fontSize: "0.95rem",
+              cursor: "pointer",
+            }}
+          >
+            Cancel
+          </button>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            marginBottom: "12px",
+            color: palette.textSecondary,
+            fontSize: "0.9rem",
+          }}
+        >
+          <span aria-hidden="true">{activeLanguage.flag}</span>
+          <span>
+            {activeLanguage.label} · {activeLanguage.nativeLabel}
+          </span>
+        </div>
         <form onSubmit={handleSubmit} style={{ marginBottom: "24px" }}>
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              background: "#f7fbff",
-              border: "1px solid #eaf2f7",
+              background: "rgba(248, 251, 255, 0.92)",
+              border: `1px solid ${palette.border}`,
               borderRadius: "999px",
               padding: "8px 16px",
               gap: "12px",
+              boxShadow: "0 14px 32px rgba(120, 150, 190, 0.16)",
             }}
           >
-            <span aria-hidden="true" style={{ color: "#0099ff" }}>
+            <span aria-hidden="true" style={{ color: palette.primaryDark }}>
               🔍
             </span>
             <input
@@ -768,7 +1024,7 @@ const MobileSearchSheet = ({
                 outline: "none",
                 background: "transparent",
                 fontSize: "1rem",
-                color: "#0a0a0a",
+                color: palette.textMain,
               }}
               aria-label="Search services"
             />
@@ -778,7 +1034,7 @@ const MobileSearchSheet = ({
               style={{
                 border: "none",
                 background: "transparent",
-                color: "#707070",
+                color: palette.textSecondary,
                 cursor: "pointer",
               }}
             >
@@ -788,12 +1044,13 @@ const MobileSearchSheet = ({
               type="submit"
               style={{
                 border: "none",
-                background: "#0099ff",
+                background: palette.primary,
                 color: "#ffffff",
                 fontWeight: 600,
                 borderRadius: "999px",
                 padding: "10px 18px",
                 cursor: "pointer",
+                boxShadow: "0 12px 28px rgba(92, 168, 255, 0.28)",
               }}
             >
               Search
@@ -806,7 +1063,7 @@ const MobileSearchSheet = ({
             style={{
               fontSize: "0.95rem",
               fontWeight: 600,
-              color: "#707070",
+              color: palette.textSecondary,
               marginBottom: "12px",
             }}
           >
@@ -822,10 +1079,10 @@ const MobileSearchSheet = ({
                 }}
                 style={{
                   borderRadius: "999px",
-                  border: "1px solid #eaf2f7",
-                  background: "#ffffff",
+                  border: `1px solid ${palette.border}`,
+                  background: "rgba(255,255,255,0.78)",
                   padding: "8px 14px",
-                  color: "#0a0a0a",
+                  color: palette.textMain,
                   cursor: "pointer",
                 }}
               >
@@ -840,7 +1097,7 @@ const MobileSearchSheet = ({
             style={{
               fontSize: "0.95rem",
               fontWeight: 600,
-              color: "#707070",
+              color: palette.textSecondary,
               marginBottom: "12px",
             }}
           >
@@ -856,10 +1113,10 @@ const MobileSearchSheet = ({
                 }}
                 style={{
                   borderRadius: "999px",
-                  border: "1px solid #eaf2f7",
-                  background: "#eaf6ff",
+                  border: `1px solid ${palette.border}`,
+                  background: "rgba(210, 229, 248, 0.6)",
                   padding: "8px 14px",
-                  color: "#0099ff",
+                  color: palette.primaryDark,
                   cursor: "pointer",
                   fontWeight: 600,
                 }}

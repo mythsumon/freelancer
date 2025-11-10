@@ -9,9 +9,9 @@ interface DefaultLayoutProps {
 
 export const DefaultLayout = ({ children, hideNav = false, hideFooter = false }: DefaultLayoutProps) => {
   return (
-    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+    <div className="app-shell">
       {!hideNav && <Navbar />}
-      <main style={{ flex: 1 }}>{children}</main>
+      <main className="app-main">{children}</main>
       {!hideFooter && <Footer />}
     </div>
   );

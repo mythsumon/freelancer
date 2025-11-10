@@ -1,14 +1,47 @@
 :root {
-  --color-primary: #0099ff;
-  --color-secondary: #66c3ff;
-  --color-accent: #eaf6ff;
-  --color-text: #0a0a0a;
-  --color-subtext: #707070;
-  --color-border: #eaf2f7;
-  --radius-lg: 16px;
-  --radius-md: 12px;
-  --shadow-soft: 0 10px 24px rgba(0, 0, 0, 0.06);
+  /* Primary brand */
+  --color-primary: #5ca8ff;
+  --color-primary-hover: #82c1ff;
+  --color-primary-light: #d8ebff;
+  --color-primary-dark: #2a74b8;
+  --color-accent: #9ad7ff;
+  --color-gradient-main: linear-gradient(135deg, #66a6ff 0%, #a2d2ff 100%);
+  --color-gradient-soft: linear-gradient(180deg, #eaf3fa 0%, #f5faff 100%);
+
+  /* Surfaces */
+  --color-bg-surface: #f9fbfe;
+  --color-bg-section: #f2f8fd;
+  --color-bg-glass: rgba(255, 255, 255, 0.6);
+  --color-bg-hover: rgba(200, 225, 255, 0.25);
+
+  /* Typography */
+  --color-text-main: #1b2b3a;
+  --color-text-secondary: #5a6f85;
+  --color-text-muted: #8ba4c2;
+
+  /* Utility */
+  --color-border: #d5e4f4;
+  --color-divider: rgba(160, 180, 200, 0.25);
+  --color-shadow-soft: rgba(120, 150, 190, 0.2);
+
+  /* Status */
+  --color-success: #4dbbb6;
+  --color-warning: #ffd37e;
+  --color-error: #ff8a8a;
+  --color-info: #7cc3ff;
+
+  /* Shadows */
+  --shadow-xs: 0 2px 8px rgba(140, 160, 190, 0.15);
+  --shadow-sm: 0 4px 14px rgba(135, 160, 195, 0.18);
+  --shadow-md: 0 8px 24px rgba(120, 150, 190, 0.2);
+  --shadow-lg: 0 16px 48px rgba(90, 120, 160, 0.25);
+
+  /* Layout */
+  --radius-lg: 18px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
   --max-width: 1280px;
+  --spacing-3: 12px;
   --spacing-4: 16px;
   --spacing-5: 24px;
   --spacing-6: 32px;
@@ -17,16 +50,46 @@
   --spacing-9: 64px;
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  color-scheme: light;
 }
 
 body {
   margin: 0;
-  font-family: 'Inter', 'Pretendard', 'Instrument Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background-color: #ffffff;
-  color: var(--color-text);
-  line-height: 1.6;
+  min-height: 100vh;
+  font-family: 'Inter', 'Noto Sans', 'Pretendard', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--color-gradient-soft);
+  color: var(--color-text-main);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgba(92, 168, 255, 0.3);
+  color: var(--color-text-main);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover,
+a:focus-visible {
+  text-decoration: underline;
+  text-decoration-color: rgba(92, 168, 255, 0.6);
+  text-decoration-thickness: 2px;
+}
+
+button {
+  font: inherit;
 }
 
 .container {
@@ -39,4 +102,89 @@ body {
   .container {
     padding: 0 var(--spacing-4);
   }
+}
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--color-gradient-soft);
+}
+
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.primary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0.75rem 1.8rem;
+  border-radius: 999px;
+  border: none;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #ffffff;
+  background: var(--color-primary);
+  box-shadow: 0 6px 16px rgba(92, 168, 255, 0.35);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.primary-btn:hover,
+.primary-btn:focus-visible {
+  background: var(--color-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(92, 168, 255, 0.35);
+  outline: none;
+}
+
+.ghost-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1.6rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--color-primary);
+  background: transparent;
+  color: var(--color-primary-dark);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.ghost-btn:hover,
+.ghost-btn:focus-visible {
+  background: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  transform: translateY(-2px);
+  outline: none;
+}
+
+.text-link {
+  color: var(--color-primary-dark);
+  font-weight: 600;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.text-link:hover,
+.text-link:focus-visible {
+  color: var(--color-primary);
+  text-decoration: underline;
+  outline: none;
+}
+
+.glass-card {
+  background: var(--color-bg-glass);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(18px);
 }

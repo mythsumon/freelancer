@@ -115,6 +115,9 @@ export const HomePage = () => {
   const [heroPanelTab, setHeroPanelTab] = useState<"talent" | "deals" | "testimonials">("talent");
   const [heroPanelIndex, setHeroPanelIndex] = useState(0);
   const heroPanelHoverRef = useRef(false);
+  const heroPanelFrameRef = useRef<number | null>(null);
+  const ctaSectionRef = useRef<HTMLDivElement | null>(null);
+  const ctaFrameRef = useRef<number | null>(null);
 
   const categories: CategoryItem[] = [
     { id: 1, slug: "design", title: "Design", icon: "🎨", description: "Branding, UI/UX, graphics & more" },
@@ -461,6 +464,71 @@ export const HomePage = () => {
     return () => window.clearInterval(interval);
   }, [activeHeroSlides.length]);
 
+  useEffect(() => {
+    const section = ctaSectionRef.current;
+    if (!section) return;
+
+    const setTransforms = (
+      rotateX: number,
+      rotateY: number,
+      translateX: number,
+      translateY: number
+    ) => {
+      section.style.setProperty("--cta-rotateX", `${rotateX}deg`);
+      section.style.setProperty("--cta-rotateY", `${rotateY}deg`);
+      section.style.setProperty("--cta-translateX", `${translateX}px`);
+      section.style.setProperty("--cta-translateY", `${translateY}px`);
+    };
+
+    const resetTransforms = () => {
+      if (ctaFrameRef.current) {
+        cancelAnimationFrame(ctaFrameRef.current);
+        ctaFrameRef.current = null;
+      }
+      setTransforms(0, 0, 0, 0);
+    };
+
+    resetTransforms();
+
+    if (viewport === "mobile") {
+      return resetTransforms;
+    }
+
+    const handlePointerMove = (event: PointerEvent) => {
+      if (ctaFrameRef.current) return;
+      ctaFrameRef.current = window.requestAnimationFrame(() => {
+        const rect = section.getBoundingClientRect();
+        const offsetX = event.clientX - rect.left;
+        const offsetY = event.clientY - rect.top;
+        const percentX = offsetX / rect.width - 0.5;
+        const percentY = offsetY / rect.height - 0.5;
+        const rotateX = Math.max(Math.min(-percentY * 6, 3.2), -3.2);
+        const rotateY = Math.max(Math.min(percentX * 6, 3.2), -3.2);
+        const translateX = percentX * 18;
+        const translateY = percentY * 18;
+        setTransforms(rotateX, rotateY, translateX, translateY);
+        ctaFrameRef.current = null;
+      });
+    };
+
+    const handlePointerLeave = () => {
+      resetTransforms();
+    };
+
+    section.addEventListener("pointermove", handlePointerMove);
+    section.addEventListener("pointerleave", handlePointerLeave);
+    section.addEventListener("pointerup", handlePointerLeave);
+    section.addEventListener("pointercancel", handlePointerLeave);
+
+    return () => {
+      section.removeEventListener("pointermove", handlePointerMove);
+      section.removeEventListener("pointerleave", handlePointerLeave);
+      section.removeEventListener("pointerup", handlePointerLeave);
+      section.removeEventListener("pointercancel", handlePointerLeave);
+      resetTransforms();
+    };
+  }, [viewport]);
+
   return (
     <div className="home-page">
       {/* Announcement banner */}
@@ -496,82 +564,30 @@ export const HomePage = () => {
       )}
 
       {/* Hero Section */}
-      <section
-        style={{
-          padding: "64px 0",
-          background: "linear-gradient(180deg, #F8FBFF 0%, #FFFFFF 100%)",
-        }}
-      >
-        <div
-          className="container"
-          style={{
-            display: "grid",
-            gap: "32px",
-            gridTemplateColumns: viewport === "mobile" ? "1fr" : "minmax(0, 1.1fr) minmax(0, 1fr)",
-            alignItems: "center",
-          }}
-        >
-          <div style={{ display: "grid", gap: "24px" }}>
-            <div>
-              <h1
-                style={{
-                  fontSize: viewport === "mobile" ? "2.3rem" : "clamp(2.75rem, 5vw, 3.5rem)",
-                  lineHeight: 1.1,
-                  margin: 0,
-                  fontWeight: 800,
-                }}
-              >
+      <section className="hero-section">
+        <div className="container hero-grid">
+          <div className="hero-left">
+            <div className="hero-heading">
+              <h1 className="hero-title">
                 Find the perfect freelancer for {" "}
-                <span style={{ color: "#0099FF" }}>
-                  the service you’re looking for
-                </span>
+                <span className="hero-highlight">the service you’re looking for</span>
               </h1>
-              <p
-                style={{
-                  color: "#707070",
-                  marginTop: "16px",
-                  marginBottom: 0,
-                  maxWidth: "540px",
-                  fontSize: viewport === "mobile" ? "1rem" : "1.05rem",
-                }}
-              >
+              <p className="hero-subtitle">
                 Access a curated community of global talent. Collaborate securely, deliver faster, and scale your business with confidence.
               </p>
             </div>
 
-            <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+            <div className="hero-chips">
               {["Verified Sellers", "Secure Payments", "24/7 Support"].map((chip) => (
-                <span
-                  key={chip}
-                  style={{
-                    padding: "0.4rem 1rem",
-                    background: "#EAF6FF",
-                    color: "#0099FF",
-                    borderRadius: "999px",
-                    fontWeight: 600,
-                    fontSize: "0.9rem",
-                  }}
-                >
+                <span key={chip} className="hero-chip">
                   {chip}
                 </span>
               ))}
             </div>
 
-            <div style={{ display: "grid", gap: "16px" }}>
-              <form
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: "12px",
-                  background: "#FFFFFF",
-                  borderRadius: "999px",
-                  padding: "12px",
-                  boxShadow: "0 10px 24px rgba(0, 0, 0, 0.06)",
-                  border: "1px solid #EAF2F7",
-                }}
-                onSubmit={(event) => event.preventDefault()}
-              >
-                <div style={{ flex: viewport === "mobile" ? "1 1 100%" : "0 0 200px" }}>
+            <div className="hero-actions">
+              <form className="hero-search" onSubmit={(event) => event.preventDefault()}>
+                <div className="hero-search__select">
                   <UniversalSelect
                     id="hero-category"
                     options={heroCategoryOptions}
@@ -584,58 +600,16 @@ export const HomePage = () => {
                 <input
                   type="text"
                   placeholder="Try ‘Logo design’ or ‘Landing page’"
-                  style={{
-                    flex: 1,
-                    minWidth: viewport === "mobile" ? "100%" : "220px",
-                    border: "none",
-                    fontSize: "1rem",
-                    padding: viewport === "mobile" ? "0 4px" : "0 8px",
-                  }}
+                  className="hero-search__input"
                 />
-                <button
-                  type="submit"
-                  style={{
-                    borderRadius: "999px",
-                    background: "#0099FF",
-                    border: "none",
-                    color: "#FFFFFF",
-                    fontWeight: 600,
-                    padding: "0.75rem 1.8rem",
-                    cursor: "pointer",
-                    transition: "background 0.2s ease, transform 0.2s ease",
-                  }}
-                  onMouseEnter={(event) => (event.currentTarget.style.background = "#0086E6")}
-                  onMouseLeave={(event) => (event.currentTarget.style.background = "#0099FF")}
-                >
+                <button type="submit" className="hero-search__button">
                   Search
                 </button>
               </form>
 
-              <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+              <div className="hero-tags">
                 {["Logo Design", "Website", "Marketing", "Translation", "Video Edit"].map((tag) => (
-                  <button
-                    key={tag}
-                    type="button"
-                    style={{
-                      borderRadius: "999px",
-                      border: "1px solid #EAF2F7",
-                      background: "#FFFFFF",
-                      color: "#707070",
-                      fontWeight: 500,
-                      padding: "0.45rem 1.3rem",
-                      cursor: "pointer",
-                    }}
-                    onMouseEnter={(event) => {
-                      event.currentTarget.style.background = "#0099FF";
-                      event.currentTarget.style.color = "#FFFFFF";
-                      event.currentTarget.style.borderColor = "#0099FF";
-                    }}
-                    onMouseLeave={(event) => {
-                      event.currentTarget.style.background = "#FFFFFF";
-                      event.currentTarget.style.color = "#707070";
-                      event.currentTarget.style.borderColor = "#EAF2F7";
-                    }}
-                  >
+                  <button key={tag} type="button" className="hero-tag">
                     {tag}
                   </button>
                 ))}
@@ -758,27 +732,6 @@ export const HomePage = () => {
                   </div>
                 ))}
               </div>
-
-              {activeHeroSlides.length > 1 && viewport !== "mobile" && (
-                <>
-                  <button
-                    type="button"
-                    className="hero-panel__arrow hero-panel__arrow--prev"
-                    aria-label="Previous hero panel"
-                    onClick={() => setHeroPanelIndex((prev) => (prev - 1 + activeHeroSlides.length) % activeHeroSlides.length)}
-                  >
-                    ◀
-                  </button>
-                  <button
-                    type="button"
-                    className="hero-panel__arrow hero-panel__arrow--next"
-                    aria-label="Next hero panel"
-                    onClick={() => setHeroPanelIndex((prev) => (prev + 1) % activeHeroSlides.length)}
-                  >
-                    ▶
-                  </button>
-                </>
-              )}
             </div>
 
             {activeHeroSlides.length > 1 && (
@@ -1333,60 +1286,38 @@ export const HomePage = () => {
       </section>
 
       {/* CTA Band */}
-      <section style={{ 
-        padding: "64px 0",
-        background: "linear-gradient(135deg, #0099ff, #66c3ff)",
-        color: "#fff"
-      }}>
+      <section
+        ref={ctaSectionRef}
+        className={`cta-3d ${viewport === "mobile" ? "cta-3d--mobile" : ""}`}
+      >
+        <div className="cta-3d__gradient" aria-hidden="true" />
+        <div className="cta-3d__gloss" aria-hidden="true" />
+        <div className="cta-3d__shimmer" aria-hidden="true" />
+        <div className="cta-3d__noise" aria-hidden="true" />
+        <div className="cta-3d__blob cta-3d__blob--tl" aria-hidden="true" />
+        <div className="cta-3d__blob cta-3d__blob--br" aria-hidden="true" />
+        <div className="cta-3d__blob cta-3d__blob--center" aria-hidden="true" />
+        <div className="cta-3d__shape cta-3d__shape--pill" aria-hidden="true" />
+        <div className="cta-3d__shape cta-3d__shape--disk" aria-hidden="true" />
+        <div className="cta-3d__shape cta-3d__shape--card" aria-hidden="true" />
         <div className="container">
-          <div style={{
-            display: "grid",
-            gap: "16px",
-            alignItems: "center",
-            justifyContent: "center",
-            textAlign: "center"
-          }}>
-            <h2 style={{
-              margin: 0,
-              fontSize: "clamp(1.8rem, 3vw, 2.2rem)",
-              color: "inherit"
-            }}>
-              Start your project today.
-            </h2>
-            <div style={{
-              display: "flex",
-              gap: "12px",
-              flexWrap: "wrap",
-              justifyContent: "center"
-            }}>
-              <button style={{
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                border: "none",
-                borderRadius: "999px",
-                padding: "0.5rem 1.25rem",
-                fontWeight: 500,
-                background: "#ffffff",
-                color: "#0099ff",
-                cursor: "pointer"
-              }}>
+          <div className="cta-3d__content">
+            <h2 className="cta-3d__title">Start your project today.</h2>
+            <div className="cta-3d__actions">
+              <Link
+                to="/freelancers"
+                className="cta-3d__button cta-3d__button--primary"
+                aria-label="Find a freelancer"
+              >
                 Find a Freelancer
-              </button>
-              <button style={{
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                border: "1px solid rgba(255, 255, 255, 0.4)",
-                borderRadius: "999px",
-                padding: "0.5rem 1.25rem",
-                fontWeight: 500,
-                background: "transparent",
-                color: "#fff",
-                cursor: "pointer"
-              }}>
+              </Link>
+              <Link
+                to="/for-freelancers"
+                className="cta-3d__button cta-3d__button--secondary"
+                aria-label="Become a seller"
+              >
                 Become a Seller
-              </button>
+              </Link>
             </div>
           </div>
         </div>
