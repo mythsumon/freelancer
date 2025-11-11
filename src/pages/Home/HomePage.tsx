@@ -3,6 +3,7 @@ import type { PointerEvent as ReactPointerEvent } from "react";
 import { Link } from "react-router-dom";
 import { BannerSlider } from "../../components/data-display/BannerSlider";
 import { UniversalSelect } from "../../components/inputs/UniversalSelect";
+import { useLanguage } from "../../i18n/LanguageProvider";
 import "./HomePage.css";
 
 type CategoryVariant = "standard" | "stack" | "isometric";
@@ -107,6 +108,7 @@ const Category3DTile = ({ category, isMobile, variant }: { category: CategoryIte
 };
 
 export const HomePage = () => {
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState("All");
   const [bannerVisible, setBannerVisible] = useState(true);
   const [bannerIndex, setBannerIndex] = useState(0);
@@ -119,21 +121,24 @@ export const HomePage = () => {
   const ctaSectionRef = useRef<HTMLDivElement | null>(null);
   const ctaFrameRef = useRef<number | null>(null);
 
-  const categories: CategoryItem[] = [
-    { id: 1, slug: "design", title: "Design", icon: "🎨", description: "Branding, UI/UX, graphics & more" },
-    { id: 2, slug: "development", title: "Development", icon: "💻", description: "Web, mobile, product engineering" },
-    { id: 3, slug: "marketing", title: "Marketing", icon: "📈", description: "Growth, social, campaigns & SEO" },
-    { id: 4, slug: "writing", title: "Writing", icon: "✍️", description: "Copywriting, blogs, product messaging" },
-    { id: 5, slug: "translation", title: "Translation", icon: "🌐", description: "Multilingual experts in 30+ languages" },
-    { id: 6, slug: "video", title: "Video", icon: "🎬", description: "Editing, animation, production" },
-  ];
+  const categories: CategoryItem[] = useMemo(
+    () => [
+      { id: 1, slug: "design", title: t("Design"), icon: "🎨", description: t("Branding, UI/UX, graphics & more") },
+      { id: 2, slug: "development", title: t("Development"), icon: "💻", description: t("Web, mobile, product engineering") },
+      { id: 3, slug: "marketing", title: t("Marketing"), icon: "📈", description: t("Growth, social, campaigns & SEO") },
+      { id: 4, slug: "writing", title: t("Writing"), icon: "✍️", description: t("Copywriting, blogs, product messaging") },
+      { id: 5, slug: "translation", title: t("Translation"), icon: "🌐", description: t("Multilingual experts in 30+ languages") },
+      { id: 6, slug: "video", title: t("Video"), icon: "🎬", description: t("Editing, animation, production") },
+    ],
+    [t]
+  );
 
   const heroCategoryOptions = useMemo(
     () => [
-      { value: "all", label: "All Categories" },
+      { value: "all", label: t("All Categories") },
       ...categories.map((category) => ({ value: category.slug, label: category.title })),
     ],
-    [categories]
+    [categories, t]
   );
 
   const [heroCategory, setHeroCategory] = useState<string | null>("all");
@@ -221,11 +226,26 @@ export const HomePage = () => {
     }
   ];
 
-  const steps = [
-    { id: 1, title: "Search or Post a Request", description: "Find experts or share your project needs with our global community." },
-    { id: 2, title: "Chat & Hire Safely", description: "Connect directly with freelancers and collaborate securely through our platform." },
-    { id: 3, title: "Pay Securely & Get Results", description: "Release payments when satisfied and receive professional-quality deliverables." },
-  ];
+  const steps = useMemo(
+    () => [
+      {
+        id: 1,
+        title: t("Search or Post a Request"),
+        description: t("Find experts or share your project needs with our global community."),
+      },
+      {
+        id: 2,
+        title: t("Chat & Hire Safely"),
+        description: t("Connect directly with freelancers and collaborate securely through our platform."),
+      },
+      {
+        id: 3,
+        title: t("Pay Securely & Get Results"),
+        description: t("Release payments when satisfied and receive professional-quality deliverables."),
+      },
+    ],
+    [t]
+  );
 
   const freelancers = [
     { id: 1, name: "Sarah Johnson", specialty: "UI/UX Designer", rating: 4.9 },
@@ -248,11 +268,14 @@ export const HomePage = () => {
 
   const tabs = ["All", "Design", "Development", "Marketing", "Writing", "Translation", "Video"];
 
-  const bannerMessages = [
-    "Now available worldwide 🌍",
-    "Trusted by over 10,000 clients ✅",
-    "Start freelancing today — it’s free 🚀",
-  ];
+  const bannerMessages = useMemo(
+    () => [
+      t("Now available worldwide 🌍"),
+      t("Trusted by over 10,000 clients ✅"),
+      t("Start freelancing today — it’s free 🚀"),
+    ],
+    [t]
+  );
 
   useEffect(() => {
     const updateViewport = () => {
@@ -287,51 +310,54 @@ export const HomePage = () => {
     };
   }, [viewport, bannerVisible, bannerMessages.length]);
 
-  const bannerItems = [
-    {
-      id: "bright",
-      title: "Bright grows their product launches",
-      text: "“We scale design deliverables 2x faster with Kmong’s verified freelancers.”",
-      ctaText: "See Bright case study",
-      href: "#bright-case",
-      imgSrc: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80",
-      imgAlt: "Bright team collaborating",
-    },
-    {
-      id: "nexa",
-      title: "Nexa builds global campaigns",
-      text: "Access on-demand talent across time zones to launch marketing in days, not months.",
-      ctaText: "Work with campaign pros",
-      href: "#nexa",
-      background: "linear-gradient(140deg, rgba(0,153,255,0.18), rgba(234,246,255,0.95))",
-    },
-    {
-      id: "aurora",
-      title: "Aurora ships product updates weekly",
-      text: "Product managers pair with UI engineers and illustrators in a single workspace.",
-      ctaText: "Meet product specialists",
-      href: "#aurora",
-      imgSrc: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80",
-      imgAlt: "Aurora team brainstorming",
-    },
-    {
-      id: "velocity",
-      title: "Velocity onboards multi-lingual support",
-      text: "Translation gigs keep global customers supported 24/7.",
-      ctaText: "Browse language freelancers",
-      href: "#velocity",
-      background: "linear-gradient(135deg, #EAF6FF 0%, #FFFFFF 60%)",
-    },
-    {
-      id: "orbit",
-      title: "Orbit produces premium video content",
-      text: "Editing, motion, and sound talent deliver cinematic stories.",
-      ctaText: "Discover video experts",
-      href: "#orbit",
-      imgSrc: "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1200&q=80",
-      imgAlt: "Orbit studio setup",
-    },
-  ];
+  const bannerItems = useMemo(
+    () => [
+      {
+        id: "bright",
+        title: t("Bright grows their product launches"),
+        text: t("“We scale design deliverables 2x faster with Kmong’s verified freelancers.”"),
+        ctaText: t("See Bright case study"),
+        href: "#bright-case",
+        imgSrc: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80",
+        imgAlt: t("Bright team collaborating"),
+      },
+      {
+        id: "nexa",
+        title: t("Nexa builds global campaigns"),
+        text: t("Access on-demand talent across time zones to launch marketing in days, not months."),
+        ctaText: t("Work with campaign pros"),
+        href: "#nexa",
+        background: "linear-gradient(140deg, rgba(0,153,255,0.18), rgba(234,246,255,0.95))",
+      },
+      {
+        id: "aurora",
+        title: t("Aurora ships product updates weekly"),
+        text: t("Product managers pair with UI engineers and illustrators in a single workspace."),
+        ctaText: t("Meet product specialists"),
+        href: "#aurora",
+        imgSrc: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80",
+        imgAlt: t("Aurora team brainstorming"),
+      },
+      {
+        id: "velocity",
+        title: t("Velocity onboards multi-lingual support"),
+        text: t("Translation gigs keep global customers supported 24/7."),
+        ctaText: t("Browse language freelancers"),
+        href: "#velocity",
+        background: "linear-gradient(135deg, #EAF6FF 0%, #FFFFFF 60%)",
+      },
+      {
+        id: "orbit",
+        title: t("Orbit produces premium video content"),
+        text: t("Editing, motion, and sound talent deliver cinematic stories."),
+        ctaText: t("Discover video experts"),
+        href: "#orbit",
+        imgSrc: "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1200&q=80",
+        imgAlt: t("Orbit studio setup"),
+      },
+    ],
+    [t]
+  );
 
   const heroTopTalent = useMemo(
     () => [
@@ -544,20 +570,20 @@ export const HomePage = () => {
               {viewport === "mobile" ? bannerMessages[0] : bannerMessages[bannerIndex]}
             </span>
             {viewport !== "mobile" && (
-              <button
-                style={{
-                  background: "transparent",
-                  border: "none",
+            <button 
+              style={{
+                background: "transparent",
+                border: "none",
                   color: "#0099FF",
-                  cursor: "pointer",
-                  fontSize: "1.2rem",
+                cursor: "pointer",
+                fontSize: "1.2rem",
                   padding: "0 8px",
-                }}
+              }}
                 aria-label="Dismiss announcement"
                 onClick={() => setBannerVisible(false)}
-              >
-                ×
-              </button>
+            >
+              ×
+            </button>
             )}
           </div>
         </div>
@@ -569,22 +595,22 @@ export const HomePage = () => {
           <div className="hero-left">
             <div className="hero-heading">
               <h1 className="hero-title">
-                Find the perfect freelancer for {" "}
-                <span className="hero-highlight">the service you’re looking for</span>
+                {t("Find the perfect freelancer for")}{" "}
+                <span className="hero-highlight">{t("the service you’re looking for")}</span>
               </h1>
               <p className="hero-subtitle">
-                Access a curated community of global talent. Collaborate securely, deliver faster, and scale your business with confidence.
+                {t("Access a curated community of global talent. Collaborate securely, deliver faster, and scale your business with confidence.")}
               </p>
             </div>
 
             <div className="hero-chips">
               {["Verified Sellers", "Secure Payments", "24/7 Support"].map((chip) => (
                 <span key={chip} className="hero-chip">
-                  {chip}
+                  {t(chip)}
                 </span>
               ))}
             </div>
-
+              
             <div className="hero-actions">
               <form className="hero-search" onSubmit={(event) => event.preventDefault()}>
                 <div className="hero-search__select">
@@ -593,24 +619,24 @@ export const HomePage = () => {
                     options={heroCategoryOptions}
                     value={heroCategory ?? undefined}
                     onChange={setHeroCategory}
-                    placeholder="All Categories"
+                    placeholder={t("All Categories")}
                     size="lg"
                   />
                 </div>
-                <input
-                  type="text"
-                  placeholder="Try ‘Logo design’ or ‘Landing page’"
+                  <input
+                    type="text"
+                    placeholder={t("Try ‘Logo design’ or ‘Landing page’")}
                   className="hero-search__input"
                 />
                 <button type="submit" className="hero-search__button">
-                  Search
-                </button>
+                  {t("Search")}
+                  </button>
               </form>
 
               <div className="hero-tags">
                 {["Logo Design", "Website", "Marketing", "Translation", "Video Edit"].map((tag) => (
                   <button key={tag} type="button" className="hero-tag">
-                    {tag}
+                    {t(tag)}
                   </button>
                 ))}
               </div>
@@ -621,11 +647,11 @@ export const HomePage = () => {
             <div className="hero-panel__halo" aria-hidden="true" />
             <div className="hero-panel__header" role="tablist" aria-label="Hero content">
               {[
-                { id: "talent", label: "Top Talent", icon: "⭐" },
-                { id: "deals", label: "Hot Deals", icon: "%" },
-                { id: "testimonials", label: "Testimonials", icon: "💬" },
+                { id: "talent", label: t("Top Talent"), icon: "⭐" },
+                { id: "deals", label: t("Hot Deals"), icon: "%" },
+                { id: "testimonials", label: t("Testimonials"), icon: "💬" },
               ].map(({ id, label, icon }) => (
-                <button
+                    <button 
                   key={id}
                   type="button"
                   role="tab"
@@ -635,9 +661,9 @@ export const HomePage = () => {
                 >
                   <span aria-hidden="true" className="hero-panel__tab-icon">{icon}</span>
                   {label}
-                </button>
-              ))}
-            </div>
+                    </button>
+                  ))}
+                </div>
 
             <div className="hero-panel__slider">
               <div className="hero-panel__slides" style={{ transform: `translateX(-${heroPanelIndex * 100}%)` }}>
@@ -654,20 +680,20 @@ export const HomePage = () => {
                         <div className="hero-talent-card__row">
                           <div className="hero-talent-card__avatar">
                             <img src={item.avatar} alt={`${item.name} avatar`} loading="lazy" />
-                          </div>
+              </div>
                           <div>
                             <h3>{item.name}</h3>
-                            <p>{item.role}</p>
+                            <p>{t(item.role)}</p>
                             <div className="hero-talent-card__chips">
                               <span>★ {item.rating.toFixed(1)}</span>
                               <span>{item.languages.join(" / ")}</span>
                               <span>{item.flags}</span>
-                            </div>
+            </div>
                           </div>
                         </div>
                         <div className="hero-talent-card__tags">
                           {item.tags.map((tag) => (
-                            <span key={`${item.id}-${tag}`}>{tag}</span>
+                            <span key={`${item.id}-${tag}`}>{t(tag)}</span>
                           ))}
                         </div>
                         <div className="hero-talent-card__gallery">
@@ -677,10 +703,10 @@ export const HomePage = () => {
                         </div>
                         <div className="hero-talent-card__actions">
                           <Link to="/freelancer/ava-kim" className="primary-btn" aria-label={`View ${item.name} profile`}>
-                            View Profile
+                            {t("View Profile")}
                           </Link>
                           <button type="button" className="ghost-btn" aria-label={`Book ${item.name}`}>
-                            Book
+                            {t("Book")}
                           </button>
                         </div>
                       </article>
@@ -690,46 +716,46 @@ export const HomePage = () => {
                       <article className="hero-deal-card">
                         <div className="hero-deal-card__media">
                           <img src={item.image} alt={item.title} loading="lazy" />
-                          <span className="hero-deal-card__badge">-20% today</span>
-                        </div>
+                          <span className="hero-deal-card__badge">{t("-20% today")}</span>
+                  </div>
                         <div className="hero-deal-card__body">
-                          <h3>{item.title}</h3>
+                          <h3>{t(item.title)}</h3>
                           <div className="hero-deal-card__pricing">
-                            <span className="hero-deal-card__price">From ${item.price}</span>
+                            <span className="hero-deal-card__price">{t("From")} ${item.price}</span>
                             <s>${item.oldPrice}</s>
-                          </div>
+                  </div>
                           <div className="hero-deal-card__actions">
                             <Link to="/services" className="primary-btn" aria-label="View service">
-                              View Service
+                              {t("View Service")}
                             </Link>
                             <button type="button" className="hero-deal-card__save" aria-label="Save deal">
                               ♥
                             </button>
-                          </div>
-                        </div>
+                </div>
+                  </div>
                       </article>
                     )}
 
                     {heroPanelTab === "testimonials" && "quote" in item && (
                       <article className="hero-testimonial-card">
                         <span className="hero-testimonial-card__quote" aria-hidden="true">❝</span>
-                        <p className="hero-testimonial-card__text">{item.quote}</p>
+                        <p className="hero-testimonial-card__text">{t(item.quote)}</p>
                         <div className="hero-testimonial-card__footer">
                           <div className="hero-testimonial-card__reviewer">
                             <img src={item.avatar} alt={item.reviewer} loading="lazy" />
                             <div>
                               <p>{item.reviewer}</p>
-                              <span>{item.company}</span>
-                            </div>
-                          </div>
+                              <span>{t(item.company)}</span>
+                  </div>
+                </div>
                           <div className="hero-testimonial-card__meta">
                             <span>★★★★★</span>
-                            <button type="button" className="text-link">Read more</button>
-                          </div>
-                        </div>
+                            <button type="button" className="text-link">{t("Read more")}</button>
+                  </div>
+                  </div>
                       </article>
                     )}
-                  </div>
+                </div>
                 ))}
               </div>
             </div>
@@ -756,11 +782,11 @@ export const HomePage = () => {
         <div className="container">
           <div className="explore-categories__header">
             <div>
-              <p className="explore-categories__eyebrow">Discover talent by discipline</p>
-              <h2 className="explore-categories__title">Explore Categories</h2>
+              <p className="explore-categories__eyebrow">{t("Discover talent by discipline")}</p>
+              <h2 className="explore-categories__title">{t("Explore Categories")}</h2>
             </div>
-            <Link to="/categories" className="explore-categories__view-all" aria-label="View all categories">
-              View All →
+            <Link to="/categories" className="explore-categories__view-all" aria-label={t("View all categories")}>
+              {t("View All")} →
             </Link>
           </div>
           <div className="explore-categories__grid">
@@ -777,30 +803,30 @@ export const HomePage = () => {
         <div className="container">
           <div
             style={{
-              display: "flex",
-              justifyContent: "space-between",
+            display: "flex",
+            justifyContent: "space-between",
               alignItems: "center",
-              gap: "16px",
+            gap: "16px",
               marginBottom: "24px",
               flexWrap: "wrap"
             }}
           >
             <h2
               style={{
-                fontSize: "clamp(1.8rem, 3vw, 2.2rem)",
-                margin: 0
+              fontSize: "clamp(1.8rem, 3vw, 2.2rem)",
+              margin: 0
               }}
             >
-              Popular Services
+              {t("Popular Services")}
             </h2>
             <Link
               to="/services"
               style={{
-                display: "inline-flex",
-                alignItems: "center",
+              display: "inline-flex",
+              alignItems: "center",
                 gap: "8px",
                 padding: "10px 18px",
-                borderRadius: "999px",
+              borderRadius: "999px",
                 border: "1px solid #EAF2F7",
                 background: "#FFFFFF",
                 color: "#0099FF",
@@ -818,10 +844,10 @@ export const HomePage = () => {
                 event.currentTarget.style.transform = "translateY(0)";
               }}
             >
-              View all
+              {t("View all")}
               <span aria-hidden="true" style={{ fontSize: "1.1rem" }}>→</span>
             </Link>
-          </div>
+              </div>
           
           <div style={{
             display: "flex",
@@ -844,7 +870,7 @@ export const HomePage = () => {
                 }}
                 onClick={() => setActiveTab(tab)}
               >
-                {tab}
+                {t(tab)}
               </button>
             ))}
           </div>
@@ -856,29 +882,29 @@ export const HomePage = () => {
           }}>
             {services.map((service) => (
               <Link
-                key={service.id}
+                key={service.id} 
                 to={`/service/${service.slug}`}
                 style={{ textDecoration: "none", color: "inherit" }}
               >
                 <div
-                  style={{
-                    background: "#ffffff",
-                    borderRadius: "16px",
-                    boxShadow: "0 10px 24px rgba(0,0,0,0.06)",
-                    overflow: "hidden",
-                    transition: "transform 0.2s ease, border 0.2s ease, box-shadow 0.2s ease"
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-4px)";
-                    e.currentTarget.style.borderColor = "#0099ff";
-                    e.currentTarget.style.boxShadow = "0 18px 40px rgba(0, 153, 255, 0.16)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "translateY(0)";
-                    e.currentTarget.style.borderColor = "transparent";
-                    e.currentTarget.style.boxShadow = "0 10px 24px rgba(0,0,0,0.06)";
-                  }}
-                >
+                style={{
+                  background: "#ffffff",
+                  borderRadius: "16px",
+                  boxShadow: "0 10px 24px rgba(0,0,0,0.06)",
+                  overflow: "hidden",
+                  transition: "transform 0.2s ease, border 0.2s ease, box-shadow 0.2s ease"
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateY(-4px)";
+                  e.currentTarget.style.borderColor = "#0099ff";
+                  e.currentTarget.style.boxShadow = "0 18px 40px rgba(0, 153, 255, 0.16)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.borderColor = "transparent";
+                  e.currentTarget.style.boxShadow = "0 10px 24px rgba(0,0,0,0.06)";
+                }}
+              >
                   <div style={{ position: "relative", aspectRatio: "16 / 9", overflow: "hidden" }}>
                     <img
                       src={service.image}
@@ -892,88 +918,88 @@ export const HomePage = () => {
                       loading="lazy"
                     />
                   </div>
-                  <div style={{
-                    padding: "24px",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "16px"
+                <div style={{
+                  padding: "24px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "16px"
+                }}>
+                  <h3 style={{
+                    fontSize: "1.05rem",
+                    fontWeight: 600,
+                    margin: 0,
+                    color: "#0a0a0a",
+                    display: "-webkit-box",
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden"
                   }}>
-                    <h3 style={{
-                      fontSize: "1.05rem",
+                    {service.title}
+                  </h3>
+                  <div style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "12px"
+                  }}>
+                    <div style={{
+                      width: "32px",
+                      height: "32px",
+                      borderRadius: "50%",
+                      background: "#eaf6ff",
+                      color: "#0099ff",
+                      display: "grid",
+                      placeItems: "center",
                       fontWeight: 600,
-                      margin: 0,
-                      color: "#0a0a0a",
-                      display: "-webkit-box",
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: "vertical",
-                      overflow: "hidden"
+                      fontSize: "0.8rem"
                     }}>
-                      {service.title}
-                    </h3>
+                      {service.seller.charAt(0)}
+                    </div>
                     <div style={{
                       display: "flex",
-                      alignItems: "center",
-                      gap: "12px"
+                      flexDirection: "column",
+                      gap: "4px"
                     }}>
-                      <div style={{
-                        width: "32px",
-                        height: "32px",
-                        borderRadius: "50%",
-                        background: "#eaf6ff",
-                        color: "#0099ff",
-                        display: "grid",
-                        placeItems: "center",
-                        fontWeight: 600,
-                        fontSize: "0.8rem"
+                      <span style={{
+                        fontWeight: 500,
+                        fontSize: "0.9rem"
                       }}>
-                        {service.seller.charAt(0)}
-                      </div>
+                        {service.seller}
+                      </span>
                       <div style={{
                         display: "flex",
-                        flexDirection: "column",
-                        gap: "4px"
+                        alignItems: "center",
+                        gap: "4px",
+                        fontSize: "0.85rem",
+                        color: "#707070"
                       }}>
                         <span style={{
-                          fontWeight: 500,
-                          fontSize: "0.9rem"
-                        }}>
-                          {service.seller}
-                        </span>
-                        <div style={{
-                          display: "flex",
+                          display: "inline-flex",
                           alignItems: "center",
-                          gap: "4px",
-                          fontSize: "0.85rem",
-                          color: "#707070"
+                          gap: "6px",
+                          fontWeight: 600,
+                          color: "#0099ff"
                         }}>
-                          <span style={{
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: "6px",
-                            fontWeight: 600,
-                            color: "#0099ff"
-                          }}>
-                            <span style={{ color: "#ffb400" }}>★</span> {service.rating}
-                          </span>
-                          <span style={{
-                            fontSize: "0.5rem",
-                            verticalAlign: "middle"
-                          }}>
-                            •
-                          </span>
-                          <span>{service.location}</span>
-                        </div>
+                          <span style={{ color: "#ffb400" }}>★</span> {service.rating}
+                        </span>
+                        <span style={{
+                          fontSize: "0.5rem",
+                          verticalAlign: "middle"
+                        }}>
+                          •
+                        </span>
+                        <span>{service.location}</span>
                       </div>
                     </div>
-                    <div style={{
-                      fontWeight: 600,
-                      color: "#0a0a0a",
-                      marginTop: "auto"
-                    }}>
-                      From ${service.price}
-                    </div>
+                  </div>
+                  <div style={{
+                    fontWeight: 600,
+                    color: "#0a0a0a",
+                    marginTop: "auto"
+                  }}>
+                    {t("From")} ${service.price}
                   </div>
                 </div>
+              </div>
               </Link>
             ))}
           </div>
@@ -988,7 +1014,7 @@ export const HomePage = () => {
             marginBottom: "24px",
             textAlign: "center"
           }}>
-            How it works
+            {t("How it works")}
           </h2>
           
           <div style={{
@@ -1081,12 +1107,12 @@ export const HomePage = () => {
             gap: "16px",
             marginBottom: "24px"
           }}>
-            <h2 style={{
-              fontSize: "clamp(1.8rem, 3vw, 2.2rem)",
+          <h2 style={{
+            fontSize: "clamp(1.8rem, 3vw, 2.2rem)",
               margin: 0
-            }}>
-              Featured Freelancers
-            </h2>
+          }}>
+            Featured Freelancers
+          </h2>
             <Link
               to="/freelancers"
               style={{
@@ -1116,7 +1142,7 @@ export const HomePage = () => {
               {freelancers.map((freelancer) => (
                 <Link
                   to="/freelancer/ava-kim"
-                  key={freelancer.id}
+                  key={freelancer.id} 
                   style={{
                     scrollSnapAlign: "start",
                     background: "#ffffff",

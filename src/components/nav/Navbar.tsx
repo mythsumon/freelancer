@@ -8,6 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { useLanguage } from "../../i18n/LanguageProvider";
 
 const DESKTOP_BREAKPOINT = 1024;
 
@@ -30,7 +31,9 @@ type DrawerNavItem = {
   children?: Array<{ label: string; to: string }>;
 };
 
-const drawerNavItems: DrawerNavItem[] = [
+type TranslateFn = (text: string) => string;
+
+const drawerNavBaseItems: DrawerNavItem[] = [
   { label: "Home", to: "/" },
   {
     label: "Categories",
@@ -77,15 +80,10 @@ const focusableSelectors = [
 ].join(", ");
 
 export const Navbar = () => {
+  const { language, setLanguage, t } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [openSection, setOpenSection] = useState<string | null>(null);
-  const [language, setLanguage] = useState(() => {
-    if (typeof window === "undefined") {
-      return "en";
-    }
-    return window.localStorage.getItem("kmong-language") ?? "en";
-  });
   const [isDesktop, setIsDesktop] = useState(() => {
     if (typeof window === "undefined") {
       return true;
@@ -105,11 +103,6 @@ export const Navbar = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    window.localStorage.setItem("kmong-language", language);
-  }, [language]);
 
   const lockScroll = isMenuOpen || isSearchOpen;
   useEffect(() => {
@@ -131,6 +124,7 @@ export const Navbar = () => {
         closeSearch={() => setIsSearchOpen(false)}
         language={language}
         onLanguageChange={setLanguage}
+        t={t}
       />
     );
   }
@@ -143,6 +137,7 @@ export const Navbar = () => {
         isMenuOpen={isMenuOpen}
         language={language}
         onLanguageChange={setLanguage}
+        t={t}
       />
       <MobileDrawer
         isOpen={isMenuOpen}
@@ -151,11 +146,13 @@ export const Navbar = () => {
         onToggleSection={(section) =>
           setOpenSection((current) => (current === section ? null : section))
         }
+        t={t}
       />
       <MobileSearchSheet
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
         language={language}
+        t={t}
       />
     </>
   );
@@ -167,12 +164,14 @@ const DesktopNavbar = ({
   closeSearch,
   language,
   onLanguageChange,
+  t,
 }: {
   onOpenSearch: () => void;
   isSearchOpen: boolean;
   closeSearch: () => void;
   language: string;
   onLanguageChange: (code: string) => void;
+  t: TranslateFn;
 }) => {
   return (
     <header
@@ -211,31 +210,31 @@ const DesktopNavbar = ({
             to="/categories"
             style={{ color: palette.textSecondary, fontWeight: 500, textDecoration: "none" }}
           >
-            Categories
+            {t("Categories")}
           </Link>
           <Link
             to="/services"
             style={{ color: palette.textSecondary, fontWeight: 500, textDecoration: "none" }}
           >
-            Services
+            {t("Services")}
           </Link>
           <Link
             to="/for-freelancers"
             style={{ color: palette.textSecondary, fontWeight: 500, textDecoration: "none" }}
           >
-            For Freelancers
+            {t("For Freelancers")}
           </Link>
           <Link
             to="/freelancers"
             style={{ color: palette.textSecondary, fontWeight: 500, textDecoration: "none" }}
           >
-            Featured Talent
+            {t("Featured Talent")}
           </Link>
           <Link
             to="/pricing"
             style={{ color: palette.textSecondary, fontWeight: 500, textDecoration: "none" }}
           >
-            Pricing
+            {t("Pricing")}
           </Link>
         </nav>
 
@@ -271,7 +270,7 @@ const DesktopNavbar = ({
               textDecoration: "none",
             }}
           >
-            Login
+            {t("Login")}
           </Link>
           <Link
             to="/signup"
@@ -286,14 +285,15 @@ const DesktopNavbar = ({
               textDecoration: "none",
             }}
           >
-            Sign Up
+            {t("Sign Up")}
           </Link>
         </div>
       </div>
       <MobileSearchSheet
         isOpen={isSearchOpen}
         onClose={closeSearch}
-    language={language}
+        language={language}
+        t={t}
         isDesktop
       />
     </header>
@@ -306,12 +306,14 @@ const MobileHeader = ({
   isMenuOpen,
   language,
   onLanguageChange,
+  t,
 }: {
   onMenuToggle: () => void;
   onSearchToggle: () => void;
   isMenuOpen: boolean;
   language: string;
   onLanguageChange: (code: string) => void;
+  t: TranslateFn;
 }) => {
   return (
     <header
@@ -379,7 +381,7 @@ const MobileHeader = ({
               textDecoration: "none",
             }}
           >
-            Log in
+            {t("Log in")}
           </Link>
           <button
             onClick={onMenuToggle}
@@ -410,15 +412,29 @@ const MobileDrawer = ({
   onClose,
   openSection,
   onToggleSection,
+  t,
 }: {
   isOpen: boolean;
   onClose: () => void;
   openSection: string | null;
   onToggleSection: (section: string) => void;
+  t: TranslateFn;
 }) => {
   const drawerRef = useRef<HTMLDivElement | null>(null);
   const overlayRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
+  const drawerNavItems = useMemo(
+    () =>
+      drawerNavBaseItems.map((item) => ({
+        ...item,
+        label: t(item.label),
+        children: item.children?.map((child) => ({
+          ...child,
+          label: t(child.label),
+        })),
+      })),
+    [t]
+  );
 
   useEffect(() => {
     if (!isOpen) return;
@@ -519,7 +535,7 @@ const MobileDrawer = ({
               marginBottom: "12px",
             }}
           >
-            Sign Up
+            {t("Sign Up")}
           </Link>
           <Link
             to="/login"
@@ -537,7 +553,7 @@ const MobileDrawer = ({
               textDecoration: "none",
             }}
           >
-            Log in
+            {t("Log in")}
           </Link>
         </div>
 
@@ -651,7 +667,7 @@ const MobileDrawer = ({
               boxShadow: "0 12px 28px rgba(92, 168, 255, 0.28)",
             }}
           >
-            Post a Request
+            {t("Post a Request")}
           </button>
           <button
             onClick={() => {
@@ -667,7 +683,7 @@ const MobileDrawer = ({
               cursor: "pointer",
             }}
           >
-            Create a Service
+            {t("Create a Service")}
           </button>
         </div>
       </aside>
@@ -843,11 +859,13 @@ const MobileSearchSheet = ({
   onClose,
   isDesktop = false,
   language,
+  t,
 }: {
   isOpen: boolean;
   onClose: () => void;
   isDesktop?: boolean;
   language?: string;
+  t: TranslateFn;
 }) => {
   const sheetRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
@@ -857,12 +875,12 @@ const MobileSearchSheet = ({
     [language]
   );
   const recentSearches = useMemo(
-    () => ["Brand identity", "Webflow development", "Motion graphics"],
-    []
+    () => [t("Brand identity"), t("Webflow development"), t("Motion graphics")],
+    [t]
   );
   const popularTags = useMemo(
-    () => ["Logo design", "Landing page", "UI audit", "Localization"],
-    []
+    () => [t("Logo design"), t("Landing page"), t("UI audit"), t("Localization")],
+    [t]
   );
 
   useEffect(() => {
@@ -963,7 +981,7 @@ const MobileSearchSheet = ({
               color: "#0a0a0a",
             }}
           >
-            Search services
+            {t("Search services")}
           </span>
           <button
             type="button"
@@ -980,7 +998,7 @@ const MobileSearchSheet = ({
               cursor: "pointer",
             }}
           >
-            Cancel
+            {t("Cancel")}
           </button>
         </div>
         <div
@@ -1017,7 +1035,7 @@ const MobileSearchSheet = ({
             <input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder='Try “Logo design” or “Landing page”'
+              placeholder={t('Try “Logo design” or “Landing page”')}
               style={{
                 flex: 1,
                 border: "none",
@@ -1037,8 +1055,8 @@ const MobileSearchSheet = ({
                 color: palette.textSecondary,
                 cursor: "pointer",
               }}
-            >
-              Clear
+              >
+                {t("Clear")}
             </button>
             <button
               type="submit"
@@ -1052,8 +1070,8 @@ const MobileSearchSheet = ({
                 cursor: "pointer",
                 boxShadow: "0 12px 28px rgba(92, 168, 255, 0.28)",
               }}
-            >
-              Search
+              >
+                {t("Search")}
             </button>
           </div>
         </form>
@@ -1067,7 +1085,7 @@ const MobileSearchSheet = ({
               marginBottom: "12px",
             }}
           >
-            Recent searches
+            {t("Recent searches")}
           </h3>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "12px" }}>
             {recentSearches.map((item) => (
@@ -1101,7 +1119,7 @@ const MobileSearchSheet = ({
               marginBottom: "12px",
             }}
           >
-            Popular tags
+            {t("Popular tags")}
           </h3>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "12px" }}>
             {popularTags.map((tag) => (
