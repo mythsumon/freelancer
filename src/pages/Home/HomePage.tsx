@@ -117,7 +117,6 @@ export const HomePage = () => {
   const [heroPanelTab, setHeroPanelTab] = useState<"talent" | "deals" | "testimonials">("talent");
   const [heroPanelIndex, setHeroPanelIndex] = useState(0);
   const heroPanelHoverRef = useRef(false);
-  const heroPanelFrameRef = useRef<number | null>(null);
   const ctaSectionRef = useRef<HTMLDivElement | null>(null);
   const ctaFrameRef = useRef<number | null>(null);
 
