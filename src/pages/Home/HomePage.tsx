@@ -247,12 +247,51 @@ export const HomePage = () => {
     [t]
   );
 
-  const freelancers = [
-    { id: 1, name: "Sarah Johnson", specialty: "UI/UX Designer", rating: 4.9 },
-    { id: 2, name: "Michael Chen", specialty: "Full Stack Developer", rating: 5.0 },
-    { id: 3, name: "Emma Rodriguez", specialty: "Content Strategist", rating: 4.8 },
-    { id: 4, name: "David Kim", specialty: "Motion Designer", rating: 4.9 },
-  ];
+  const freelancers = useMemo(
+    () => [
+      {
+        id: 1,
+        name: "Sarah Johnson",
+        specialty: t("UI/UX Designer"),
+        rating: 4.9,
+        coverImage:
+          "https://images.unsplash.com/photo-1523726491678-bf852e717f6a?auto=format&fit=crop&w=900&q=80",
+        avatar:
+          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=160&q=80",
+      },
+      {
+        id: 2,
+        name: "Michael Chen",
+        specialty: t("Full Stack Developer"),
+        rating: 5.0,
+        coverImage:
+          "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=900&q=80",
+        avatar:
+          "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=160&q=80",
+      },
+      {
+        id: 3,
+        name: "Emma Rodriguez",
+        specialty: t("Content Strategist"),
+        rating: 4.8,
+        coverImage:
+          "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&w=900&q=80",
+        avatar:
+          "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=160&q=80",
+      },
+      {
+        id: 4,
+        name: "David Kim",
+        specialty: t("Motion Designer"),
+        rating: 4.9,
+        coverImage:
+          "https://images.unsplash.com/photo-1525182008055-f88b95ff7980?auto=format&fit=crop&w=900&q=80",
+        avatar:
+          "https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?auto=format&fit=crop&w=160&q=80",
+      },
+    ],
+    [t]
+  );
 
   const testimonials = [
     { id: 1, quote: "Kmong helped me find the perfect designer for my startup's branding. The quality exceeded expectations!", author: "James Wilson", role: "Startup Founder", rating: 5.0 },
@@ -1111,7 +1150,7 @@ export const HomePage = () => {
             fontSize: "clamp(1.8rem, 3vw, 2.2rem)",
               margin: 0
           }}>
-            Featured Freelancers
+            {t("Featured Freelancers")}
           </h2>
             <Link
               to="/freelancers"
@@ -1121,7 +1160,7 @@ export const HomePage = () => {
                 textDecoration: "none"
               }}
             >
-              See more →
+              {t("See more")} →
             </Link>
           </div>
           
@@ -1135,9 +1174,11 @@ export const HomePage = () => {
               gridAutoColumns: "minmax(280px, 1fr)",
               gap: "24px",
               overflowX: "auto",
-              paddingBottom: "12px",
+              padding: "0 16px 16px",
               scrollSnapType: "x mandatory",
-              scrollbarWidth: "thin"
+              scrollbarWidth: "thin",
+              justifyContent: "center",
+              alignItems: "stretch"
             }}>
               {freelancers.map((freelancer) => (
                 <Link
@@ -1151,30 +1192,56 @@ export const HomePage = () => {
                     overflow: "hidden",
                     position: "relative",
                     textDecoration: "none",
-                    color: "inherit"
+                    color: "inherit",
+                    transition: "transform 0.24s ease, box-shadow 0.24s ease, border 0.24s ease",
+                    border: "1px solid rgba(0,153,255,0.08)"
+                  }}
+                  onMouseEnter={(event) => {
+                    event.currentTarget.style.transform = "translateY(-8px)";
+                    event.currentTarget.style.boxShadow = "0 20px 48px rgba(0, 153, 255, 0.18)";
+                    event.currentTarget.style.border = "1px solid rgba(0,153,255,0.25)";
+                  }}
+                  onMouseLeave={(event) => {
+                    event.currentTarget.style.transform = "translateY(0)";
+                    event.currentTarget.style.boxShadow = "0 10px 24px rgba(0,0,0,0.06)";
+                    event.currentTarget.style.border = "1px solid rgba(0,153,255,0.08)";
                   }}
                 >
-                  <div style={{
-                    height: "120px",
-                    background: "linear-gradient(135deg, #eaf6ff, #fff)",
-                    position: "relative"
-                  }}></div>
-                  <div style={{
-                    position: "absolute",
-                    top: "70px",
-                    left: "24px",
-                    width: "72px",
-                    height: "72px",
-                    borderRadius: "50%",
-                    border: "4px solid #ffffff",
-                    background: "#eaf6ff",
-                    color: "#0099ff",
-                    display: "grid",
-                    placeItems: "center",
-                    fontWeight: 700,
-                    fontSize: "1.5rem"
-                  }}>
-                    {freelancer.name.charAt(0)}
+                  <div style={{ position: "relative" }}>
+                    <img
+                      src={freelancer.coverImage}
+                      alt={`${freelancer.name} portfolio preview`}
+                      style={{
+                        width: "100%",
+                        height: "180px",
+                        objectFit: "cover",
+                        objectPosition: "center",
+                        display: "block",
+                      }}
+                      loading="lazy"
+                    />
+                    <div style={{
+                      position: "absolute",
+                      bottom: "-36px",
+                      left: "24px",
+                      width: "72px",
+                      height: "72px",
+                      borderRadius: "50%",
+                      border: "4px solid #ffffff",
+                      overflow: "hidden",
+                      boxShadow: "0 10px 24px rgba(0,153,255,0.25)",
+                    }}>
+                      <img
+                        src={freelancer.avatar}
+                        alt={`${freelancer.name} avatar`}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                        }}
+                        loading="lazy"
+                      />
+                    </div>
                   </div>
                   <div style={{
                     padding: "calc(24px + 36px) 24px 24px",
@@ -1217,7 +1284,7 @@ export const HomePage = () => {
                       color: "#ffffff",
                       alignSelf: "center"
                     }}>
-                      View Profile
+                      {t("View Profile")}
                     </span>
                   </div>
                 </Link>
