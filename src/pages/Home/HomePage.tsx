@@ -686,15 +686,15 @@ export const HomePage = () => {
       <section className="hero-section">
         <div className="container hero-grid">
           <div className="hero-left">
-            <div className="hero-heading">
-              <h1 className="hero-title">
-                {t("Find the perfect freelancer for")}{" "}
-                <span className="hero-highlight">{t("the service you’re looking for")}</span>
-              </h1>
-              <p className="hero-subtitle">
-                {t("Access a curated community of global talent. Collaborate securely, deliver faster, and scale your business with confidence.")}
-              </p>
-            </div>
+              <div className="hero-heading">
+                <h1 className="hero-title">
+                  {t("Global talent,")}{" "}
+                  <span className="hero-highlight">{t("local impact.")}</span>
+                </h1>
+                <p className="hero-subtitle">
+                  {t("Work smarter with professionals who understand your goals.")}
+                </p>
+              </div>
 
             <div className="hero-chips">
               {["Verified Sellers", "Secure Payments", "24/7 Support"].map((chip) => (

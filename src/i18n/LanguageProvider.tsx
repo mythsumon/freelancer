@@ -53,8 +53,11 @@ const translations: Record<SupportedLanguage, TranslationDictionary> = {
     "All Categories": "전체 카테고리",
     "Find the perfect freelancer for": "당신에게 꼭 맞는 프리랜서를 찾아보세요",
     "the service you’re looking for": "원하는 서비스를 위해",
+    "Global talent,": "글로벌 인재,",
+    "local impact.": "로컬 임팩트.",
     "Access a curated community of global talent. Collaborate securely, deliver faster, and scale your business with confidence.":
       "전 세계에서 엄선한 전문가 커뮤니티에 접속하고, 안전하게 협업하며 더 빠르게 결과를 만들고, 사업을 자신 있게 확장하세요.",
+    "Work smarter with professionals who understand your goals.": "당신의 목표를 이해하는 전문가들과 더 스마트하게 일하세요.",
     "Verified Sellers": "검증된 판매자",
     "Secure Payments": "안전한 결제",
     "24/7 Support": "24시간 지원",
