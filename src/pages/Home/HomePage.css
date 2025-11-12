@@ -1056,25 +1056,19 @@
 
 .hero-search {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  align-items: stretch;
   gap: 12px;
-  padding: 14px;
-  border-radius: 999px;
-  background: rgba(248, 251, 255, 0.9);
+  padding: 16px;
+  border-radius: 20px;
+  background: #ffffff;
   border: 1px solid rgba(213, 228, 244, 0.65);
-  box-shadow: var(--shadow-md);
-  backdrop-filter: blur(14px);
-}
-
-.hero-search__select {
-  flex: 0 0 200px;
-  min-width: 180px;
+  box-shadow: 0 20px 48px rgba(46, 94, 153, 0.18);
+  backdrop-filter: blur(18px);
 }
 
 .hero-search__input {
-  flex: 1;
-  min-width: 220px;
+  flex: 1 1 auto;
+  min-width: 0;
   border: none;
   background: transparent;
   font-size: 1rem;
@@ -1135,6 +1129,21 @@
   outline: none;
 }
 
+.hero-mobile-fade {
+  animation: heroMobileFade 0.45s ease both;
+}
+
+@keyframes heroMobileFade {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (max-width: 1024px) {
   .hero-grid {
     grid-template-columns: 1fr;
@@ -1155,7 +1164,6 @@
     align-items: stretch;
   }
 
-  .hero-search__select,
   .hero-search__input,
   .hero-search__button {
     flex: 1 1 auto;
@@ -1179,6 +1187,91 @@
   .hero-tag {
     width: 100%;
     justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .container.hero-grid {
+    padding: 0 24px;
+  }
+
+  .hero-left {
+    gap: 20px;
+    text-align: center;
+    animation: heroMobileFade 0.45s ease both;
+  }
+
+  .hero-heading {
+    gap: 12px;
+  }
+
+  .hero-title {
+    font-size: clamp(1.75rem, 8vw, 2rem);
+  }
+
+  .hero-subtitle {
+    font-size: clamp(0.95rem, 4vw, 1rem);
+    color: rgba(16, 37, 66, 0.8);
+  }
+
+  .hero-chips {
+    display: grid;
+    gap: 12px;
+  }
+
+  .hero-chip {
+    width: 100%;
+    border-radius: 16px;
+    padding: 12px 16px;
+    font-size: 14px;
+    background: #f7f9fc;
+    color: #1e3a8a;
+    border: 1px solid rgba(30, 58, 138, 0.08);
+  }
+
+  .hero-chip:hover,
+  .hero-chip:focus-visible,
+  .hero-chip:active {
+    background: #e5edff;
+    color: #1e3a8a;
+    border-color: rgba(30, 58, 138, 0.18);
+  }
+
+  .hero-actions {
+    gap: 20px;
+  }
+
+  .hero-search {
+    padding: 16px;
+    gap: 12px;
+    border-radius: 16px;
+  }
+
+  .hero-tags {
+    display: grid;
+    gap: 12px;
+  }
+
+  .hero-tag {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 16px;
+    font-size: 14px;
+    background: #f7f9fc;
+    color: #1e3a8a;
+    border: 1px solid rgba(30, 58, 138, 0.08);
+  }
+
+  .hero-tag:hover,
+  .hero-tag:focus-visible,
+  .hero-tag:active {
+    background: #e5edff;
+    color: #1e3a8a;
+    border-color: rgba(30, 58, 138, 0.18);
+  }
+
+  .hero-panel {
+    margin-top: 20px;
   }
 }
 

@@ -2,7 +2,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { PointerEvent as ReactPointerEvent } from "react";
 import { Link } from "react-router-dom";
 import { BannerSlider } from "../../components/data-display/BannerSlider";
-import { UniversalSelect } from "../../components/inputs/UniversalSelect";
 import { useLanguage } from "../../i18n/LanguageProvider";
 import "./HomePage.css";
 
@@ -145,16 +144,6 @@ export const HomePage = () => {
     ],
     [t]
   );
-
-  const heroCategoryOptions = useMemo(
-    () => [
-      { value: "all", label: t("All Categories") },
-      ...categories.map((category) => ({ value: category.slug, label: category.title })),
-    ],
-    [categories, t]
-  );
-
-  const [heroCategory, setHeroCategory] = useState<string | null>("all");
 
   const services = [
     {
@@ -706,24 +695,14 @@ export const HomePage = () => {
               
             <div className="hero-actions">
               <form className="hero-search" onSubmit={(event) => event.preventDefault()}>
-                <div className="hero-search__select">
-                  <UniversalSelect
-                    id="hero-category"
-                    options={heroCategoryOptions}
-                    value={heroCategory ?? undefined}
-                    onChange={setHeroCategory}
-                    placeholder={t("All Categories")}
-                    size="lg"
-                  />
-                </div>
-                  <input
-                    type="text"
-                    placeholder={t("Try ‘Logo design’ or ‘Landing page’")}
+                <input
+                  type="text"
+                  placeholder={t("Try ‘Logo design’ or ‘Landing page’")}
                   className="hero-search__input"
                 />
                 <button type="submit" className="hero-search__button">
                   {t("Search")}
-                  </button>
+                </button>
               </form>
 
               <div className="hero-tags">
