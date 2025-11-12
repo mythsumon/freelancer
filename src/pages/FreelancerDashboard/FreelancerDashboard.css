@@ -1,11 +1,11 @@
 :root {
-  --brand: #0099ff;
+  --brand: #2e5e99;
   --brand-hover: #0086e6;
-  --brand-weak: #eaf6ff;
+  --brand-weak: #e7f0fa;
   --surface: #ffffff;
   --text: #0a0a0a;
   --sub: #707070;
-  --divider: #eaf2f7;
+  --divider: #d7e3f2;
   --success: #10b981;
   --warn: #f59e0b;
   --danger: #ef4444;
@@ -15,7 +15,7 @@
 
 .dashboard {
   min-height: 100vh;
-  background: #f8fbff;
+  background: #f3f7fc;
   color: var(--text);
   display: flex;
   font-family: "Inter", "Pretendard", "Segoe UI", sans-serif;
@@ -129,7 +129,7 @@
   padding: 20px 32px;
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(0, 153, 255, 0.08);
+  border-bottom: 1px solid rgba(46, 94, 153, 0.08);
 }
 
 .dashboard-topbar .topbar-breadcrumb {
@@ -207,7 +207,7 @@
   height: 44px;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid rgba(0, 153, 255, 0.12);
+  border: 2px solid rgba(46, 94, 153, 0.12);
 }
 
 .avatar-btn img {
@@ -244,7 +244,7 @@
   width: 42px;
   height: 42px;
   border-radius: 14px;
-  background: rgba(0, 153, 255, 0.12);
+  background: rgba(46, 94, 153, 0.12);
   display: grid;
   place-items: center;
   font-size: 1.4rem;
@@ -315,7 +315,7 @@
 
 .tab-group {
   display: inline-flex;
-  background: rgba(0, 153, 255, 0.08);
+  background: rgba(46, 94, 153, 0.08);
   border-radius: 999px;
   padding: 4px;
 }
@@ -333,7 +333,7 @@
 .tab--active {
   background: var(--surface);
   color: var(--brand);
-  box-shadow: 0 6px 12px rgba(0, 153, 255, 0.15);
+  box-shadow: 0 6px 12px rgba(46, 94, 153, 0.15);
 }
 
 .line-chart {
@@ -447,7 +447,7 @@
 }
 
 .status--progress {
-  background: rgba(0, 153, 255, 0.12);
+  background: rgba(46, 94, 153, 0.12);
   color: var(--brand);
 }
 
@@ -548,7 +548,7 @@
   border-radius: 999px;
   font-weight: 600;
   font-size: 0.85rem;
-  background: rgba(0, 153, 255, 0.12);
+  background: rgba(46, 94, 153, 0.12);
   color: var(--brand);
 }
 
@@ -622,7 +622,7 @@
 
 .reviews-bar__fill {
   height: 100%;
-  background: linear-gradient(120deg, var(--brand), #66c3ff);
+  background: linear-gradient(120deg, var(--brand), #7ba4d0);
 }
 
 .reviews-list {
@@ -682,7 +682,7 @@
 
 .progress-bar div {
   height: 100%;
-  background: linear-gradient(120deg, var(--brand), #66c3ff);
+  background: linear-gradient(120deg, var(--brand), #7ba4d0);
 }
 
 .progress-checklist {
@@ -745,7 +745,7 @@
 }
 
 .calendar-day--event {
-  background: rgba(0, 153, 255, 0.12);
+  background: rgba(46, 94, 153, 0.12);
   color: var(--brand);
   font-weight: 600;
 }
@@ -772,7 +772,7 @@
 }
 
 .shortcuts-card kbd {
-  background: rgba(0, 153, 255, 0.12);
+  background: rgba(46, 94, 153, 0.12);
   border-radius: 8px;
   padding: 4px 8px;
   font-weight: 600;

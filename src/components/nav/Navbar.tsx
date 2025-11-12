@@ -323,7 +323,7 @@ const MobileHeader = ({
         zIndex: 40,
         background: "rgba(255,255,255,0.95)",
         backdropFilter: "blur(14px)",
-        borderBottom: "1px solid rgba(0,153,255,0.12)",
+        borderBottom: "1px solid rgba(46,94,153,0.12)",
         paddingTop: "calc(env(safe-area-inset-top, 0px) + 8px)",
         paddingBottom: "8px",
       }}
@@ -664,7 +664,7 @@ const MobileDrawer = ({
               fontWeight: 600,
               padding: "16px",
               cursor: "pointer",
-              boxShadow: "0 12px 28px rgba(92, 168, 255, 0.28)",
+              boxShadow: "0 12px 28px rgba(123, 164, 208, 0.28)",
             }}
           >
             {t("Post a Request")}
@@ -833,7 +833,7 @@ const LanguageSelector = ({
                   padding: "10px 12px",
                   textAlign: "left",
                   cursor: "pointer",
-                  background: isActive ? "rgba(92, 168, 255, 0.16)" : "transparent",
+                  background: isActive ? "rgba(123, 164, 208, 0.16)" : "transparent",
                   color: palette.textMain,
                   fontWeight: isActive ? 600 : 500,
                 }}
@@ -1068,7 +1068,7 @@ const MobileSearchSheet = ({
                 borderRadius: "999px",
                 padding: "10px 18px",
                 cursor: "pointer",
-                boxShadow: "0 12px 28px rgba(92, 168, 255, 0.28)",
+                boxShadow: "0 12px 28px rgba(123, 164, 208, 0.28)",
               }}
               >
                 {t("Search")}

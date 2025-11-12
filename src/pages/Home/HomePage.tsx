@@ -365,7 +365,7 @@ export const HomePage = () => {
         text: t("Access on-demand talent across time zones to launch marketing in days, not months."),
         ctaText: t("Work with campaign pros"),
         href: "#nexa",
-        background: "linear-gradient(140deg, rgba(0,153,255,0.18), rgba(234,246,255,0.95))",
+        background: "linear-gradient(140deg, rgba(46,94,153,0.18), rgba(231,240,250,0.95))",
       },
       {
         id: "aurora",
@@ -382,7 +382,7 @@ export const HomePage = () => {
         text: t("Translation gigs keep global customers supported 24/7."),
         ctaText: t("Browse language freelancers"),
         href: "#velocity",
-        background: "linear-gradient(135deg, #EAF6FF 0%, #FFFFFF 60%)",
+        background: "linear-gradient(135deg, #E7F0FA 0%, #FFFFFF 60%)",
       },
       {
         id: "orbit",
@@ -597,7 +597,7 @@ export const HomePage = () => {
     <div className="home-page">
       {/* Announcement banner */}
       {bannerVisible && (
-        <div style={{ backgroundColor: "#EAF6FF", color: "#0099FF", padding: "8px 0" }}>
+        <div style={{ backgroundColor: "#E7F0FA", color: "#2e5e99", padding: "8px 0" }}>
           <div className="container" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: "0.95rem", fontWeight: 600 }}>
             <span
               style={{
@@ -612,7 +612,7 @@ export const HomePage = () => {
               style={{
                 background: "transparent",
                 border: "none",
-                  color: "#0099FF",
+                  color: "#2e5e99",
                 cursor: "pointer",
                 fontSize: "1.2rem",
                   padding: "0 8px",
@@ -865,16 +865,16 @@ export const HomePage = () => {
                 gap: "8px",
                 padding: "10px 18px",
               borderRadius: "999px",
-                border: "1px solid #EAF2F7",
+                border: "1px solid #D7E3F2",
                 background: "#FFFFFF",
-                color: "#0099FF",
+                color: "#2e5e99",
                 fontWeight: 600,
                 textDecoration: "none",
-                boxShadow: "0 6px 18px rgba(0, 153, 255, 0.08)",
+                boxShadow: "0 6px 18px rgba(46, 94, 153, 0.08)",
                 transition: "background 0.2s ease, transform 0.2s ease"
               }}
               onMouseEnter={(event) => {
-                event.currentTarget.style.background = "#EAF6FF";
+                event.currentTarget.style.background = "#E7F0FA";
                 event.currentTarget.style.transform = "translateY(-2px)";
               }}
               onMouseLeave={(event) => {
@@ -899,9 +899,9 @@ export const HomePage = () => {
                 style={{
                   borderRadius: "999px",
                   padding: "0.6rem 1.4rem",
-                  border: "1px solid #eaf2f7",
+                  border: "1px solid #d7e3f2",
                   background: "#ffffff",
-                  color: tab === activeTab ? "#0099ff" : "#707070",
+                  color: tab === activeTab ? "#2e5e99" : "#707070",
                   cursor: "pointer",
                   transition: "background 0.2s ease, color 0.2s ease, border 0.2s ease",
                   fontWeight: 500
@@ -934,8 +934,8 @@ export const HomePage = () => {
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = "translateY(-4px)";
-                  e.currentTarget.style.borderColor = "#0099ff";
-                  e.currentTarget.style.boxShadow = "0 18px 40px rgba(0, 153, 255, 0.16)";
+                  e.currentTarget.style.borderColor = "#2e5e99";
+                  e.currentTarget.style.boxShadow = "0 18px 40px rgba(46, 94, 153, 0.16)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = "translateY(0)";
@@ -983,8 +983,8 @@ export const HomePage = () => {
                       width: "32px",
                       height: "32px",
                       borderRadius: "50%",
-                      background: "#eaf6ff",
-                      color: "#0099ff",
+                      background: "#e7f0fa",
+                      color: "#2e5e99",
                       display: "grid",
                       placeItems: "center",
                       fontWeight: 600,
@@ -1015,7 +1015,7 @@ export const HomePage = () => {
                           alignItems: "center",
                           gap: "6px",
                           fontWeight: 600,
-                          color: "#0099ff"
+                          color: "#2e5e99"
                         }}>
                           <span style={{ color: "#ffb400" }}>★</span> {service.rating}
                         </span>
@@ -1079,8 +1079,8 @@ export const HomePage = () => {
                   width: "48px",
                   height: "48px",
                   borderRadius: "50%",
-                  background: "#eaf6ff",
-                  color: "#0099ff",
+                  background: "#e7f0fa",
+                  color: "#2e5e99",
                   display: "grid",
                   placeItems: "center",
                   fontWeight: 700,
@@ -1130,7 +1130,7 @@ export const HomePage = () => {
             fontSize: viewport === "mobile" ? "0.95rem" : "1rem",
             fontWeight: 500
           }}>
-            Over <span style={{ color: "#0099FF", fontWeight: 700 }}>12,000+</span> businesses collaborate on <span style={{ fontWeight: 700, color: "#0099FF" }}>Kmong</span>
+            Over <span style={{ color: "#2e5e99", fontWeight: 700 }}>12,000+</span> businesses collaborate on <span style={{ fontWeight: 700, color: "#2e5e99" }}>Kmong</span>
           </p>
         </div>
       </section>
@@ -1154,7 +1154,7 @@ export const HomePage = () => {
             <Link
               to="/freelancers"
               style={{
-                color: "#0099ff",
+                color: "#2e5e99",
                 fontWeight: 600,
                 textDecoration: "none"
               }}
@@ -1193,17 +1193,17 @@ export const HomePage = () => {
                     textDecoration: "none",
                     color: "inherit",
                     transition: "transform 0.24s ease, box-shadow 0.24s ease, border 0.24s ease",
-                    border: "1px solid rgba(0,153,255,0.08)"
+                    border: "1px solid rgba(46,94,153,0.08)"
                   }}
                   onMouseEnter={(event) => {
                     event.currentTarget.style.transform = "translateY(-8px)";
-                    event.currentTarget.style.boxShadow = "0 20px 48px rgba(0, 153, 255, 0.18)";
-                    event.currentTarget.style.border = "1px solid rgba(0,153,255,0.25)";
+                    event.currentTarget.style.boxShadow = "0 20px 48px rgba(46, 94, 153, 0.18)";
+                    event.currentTarget.style.border = "1px solid rgba(46,94,153,0.25)";
                   }}
                   onMouseLeave={(event) => {
                     event.currentTarget.style.transform = "translateY(0)";
                     event.currentTarget.style.boxShadow = "0 10px 24px rgba(0,0,0,0.06)";
-                    event.currentTarget.style.border = "1px solid rgba(0,153,255,0.08)";
+                    event.currentTarget.style.border = "1px solid rgba(46,94,153,0.08)";
                   }}
                 >
                   <div style={{ position: "relative" }}>
@@ -1228,7 +1228,7 @@ export const HomePage = () => {
                       borderRadius: "50%",
                       border: "4px solid #ffffff",
                       overflow: "hidden",
-                      boxShadow: "0 10px 24px rgba(0,153,255,0.25)",
+                      boxShadow: "0 10px 24px rgba(46,94,153,0.25)",
                     }}>
                       <img
                         src={freelancer.avatar}
@@ -1267,7 +1267,7 @@ export const HomePage = () => {
                       alignItems: "center",
                       gap: "6px",
                       fontWeight: 600,
-                      color: "#0099ff",
+                      color: "#2e5e99",
                       justifyContent: "center"
                     }}>
                       <span style={{ color: "#ffb400" }}>★</span> {freelancer.rating}
@@ -1279,7 +1279,7 @@ export const HomePage = () => {
                       borderRadius: "999px",
                       padding: "0.5rem 1.25rem",
                       fontWeight: 500,
-                      background: "linear-gradient(140deg, #0099ff 0%, #66c3ff 100%)",
+                      background: "linear-gradient(140deg, #2e5e99 0%, #7ba4d0 100%)",
                       color: "#ffffff",
                       alignSelf: "center"
                     }}>
@@ -1329,8 +1329,8 @@ export const HomePage = () => {
                     width: "48px",
                     height: "48px",
                     borderRadius: "50%",
-                    background: "#eaf6ff",
-                    color: "#0099ff",
+                    background: "#e7f0fa",
+                    color: "#2e5e99",
                     display: "grid",
                     placeItems: "center",
                     fontWeight: 700
@@ -1442,7 +1442,7 @@ export const HomePage = () => {
               >
                 <div style={{
                   height: "160px",
-                  background: "linear-gradient(135deg, #eaf6ff, #fff)"
+                  background: "linear-gradient(135deg, #e7f0fa, #fff)"
                 }}></div>
                 <div style={{
                   padding: "24px",
@@ -1466,7 +1466,7 @@ export const HomePage = () => {
                   <button style={{
                     background: "none",
                     border: "none",
-                    color: "#0099ff",
+                    color: "#2e5e99",
                     fontWeight: 500,
                     padding: 0,
                     marginTop: "auto",
@@ -1489,7 +1489,7 @@ export const HomePage = () => {
           <div style={{
             background: "#ffffff",
             borderRadius: "24px",
-            border: "1px solid #eaf2f7",
+            border: "1px solid #d7e3f2",
             boxShadow: "0 10px 24px rgba(0,0,0,0.06)",
             padding: "48px",
             display: "grid",
@@ -1504,7 +1504,7 @@ export const HomePage = () => {
               top: 0,
               bottom: 0,
               width: "4px",
-              background: "#0099ff",
+              background: "#2e5e99",
               borderRadius: "24px 0 0 24px"
             }}></div>
             <h2 style={{
@@ -1534,7 +1534,7 @@ export const HomePage = () => {
                 style={{
                   flex: "1 1 260px",
                   borderRadius: "16px",
-                  border: "1px solid #eaf2f7",
+                  border: "1px solid #d7e3f2",
                   padding: "0.85rem 1rem",
                   fontSize: "1rem",
                   maxWidth: "360px"
@@ -1546,7 +1546,7 @@ export const HomePage = () => {
                 style={{
                   borderRadius: "16px",
                   padding: "0.85rem 1rem",
-                  background: "#0099ff",
+                  background: "#2e5e99",
                   color: "#ffffff",
                   border: "none",
                   fontWeight: 600,

@@ -126,7 +126,7 @@ export const BannerSlider = ({ items, autoPlayIntervalMs = 4000 }: BannerSliderP
             <div key={`page-${pageIndex}`} className="banner-slider__page" aria-hidden={pageIndex !== currentIndex}>
               <div className="banner-slider__grid">
                 {page.map((item) => (
-                  <article key={item.id} className="banner-card" style={{ background: item.background ?? "linear-gradient(135deg, #EAF6FF, #FFFFFF)" }}>
+                  <article key={item.id} className="banner-card" style={{ background: item.background ?? "linear-gradient(135deg, #E7F0FA, #FFFFFF)" }}>
                     {item.imgSrc ? (
                       <img src={item.imgSrc} alt={item.imgAlt ?? item.title} loading="lazy" />
                     ) : null}

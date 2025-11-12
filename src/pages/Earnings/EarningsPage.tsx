@@ -62,13 +62,13 @@ export const EarningsPage = () => {
           <svg viewBox="0 0 600 220" style={{ width: "100%", height: "220px" }}>
             <defs>
               <linearGradient id="earningsGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="rgba(0,153,255,0.32)" />
-                <stop offset="100%" stopColor="rgba(0,153,255,0.05)" />
+                <stop offset="0%" stopColor="rgba(46,94,153,0.32)" />
+                <stop offset="100%" stopColor="rgba(46,94,153,0.05)" />
               </linearGradient>
             </defs>
             <polyline
               fill="none"
-              stroke="rgba(0,153,255,0.85)"
+              stroke="rgba(46,94,153,0.85)"
               strokeWidth="6"
               strokeLinecap="round"
               strokeLinejoin="round"

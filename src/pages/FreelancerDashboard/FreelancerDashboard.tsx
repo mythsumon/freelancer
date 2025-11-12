@@ -277,12 +277,12 @@ export const FreelancerDashboard = () => {
           <div className="line-chart" role="img" aria-label="Revenue trend rising from $3,200 to $4,480 over 12 months">
             <svg viewBox="0 0 100 100" preserveAspectRatio="none">
               <linearGradient id="revenue-gradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="rgba(0,153,255,0.32)" />
-                <stop offset="100%" stopColor="rgba(0,153,255,0.05)" />
+                <stop offset="0%" stopColor="rgba(46,94,153,0.32)" />
+                <stop offset="100%" stopColor="rgba(46,94,153,0.05)" />
               </linearGradient>
               <polyline
                 fill="none"
-                stroke="rgba(0,153,255,0.9)"
+                stroke="rgba(46,94,153,0.9)"
                 strokeWidth="2"
                 strokeLinecap="round"
                 points={revenuePath}

@@ -1,6 +1,6 @@
 .buyer-dashboard {
   min-height: 100vh;
-  background: linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
+  background: linear-gradient(180deg, #f3f7fc 0%, #ffffff 100%);
   color: #0a0a0a;
   display: flex;
   flex-direction: column;
@@ -12,7 +12,7 @@
   z-index: 20;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid #eaf2f7;
+  border-bottom: 1px solid #d7e3f2;
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
   align-items: center;
@@ -23,14 +23,14 @@
 .buyer-dashboard__logo {
   font-weight: 700;
   font-size: 1.35rem;
-  color: #0099ff;
+  color: #2e5e99;
 }
 
 .buyer-dashboard__search input {
   width: 100%;
   height: 44px;
   border-radius: 999px;
-  border: 1px solid #eaf2f7;
+  border: 1px solid #d7e3f2;
   background: #ffffff;
   padding: 0 18px;
   font-size: 0.95rem;
@@ -44,7 +44,7 @@
 
 .primary-btn {
   border-radius: 999px;
-  background: #0099ff;
+  background: #2e5e99;
   color: #ffffff;
   border: none;
   padding: 10px 20px;
@@ -62,7 +62,7 @@
   width: 40px;
   height: 40px;
   border-radius: 999px;
-  border: 1px solid #eaf2f7;
+  border: 1px solid #d7e3f2;
   background: #ffffff;
   display: grid;
   place-items: center;
@@ -71,7 +71,7 @@
 
 .avatar-btn span {
   font-weight: 600;
-  color: #0099ff;
+  color: #2e5e99;
 }
 
 .buyer-dashboard__body {
@@ -111,9 +111,9 @@
 
 .buyer-dashboard__nav-link:hover,
 .buyer-dashboard__nav-link.is-active {
-  border-color: #0099ff;
-  color: #0099ff;
-  background: #eaf6ff;
+  border-color: #2e5e99;
+  color: #2e5e99;
+  background: #e7f0fa;
 }
 
 .buyer-dashboard__main {
@@ -124,7 +124,7 @@
 .buyer-section {
   background: #ffffff;
   border-radius: 18px;
-  border: 1px solid #eaf2f7;
+  border: 1px solid #d7e3f2;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
   padding: 24px;
   display: grid;
@@ -151,8 +151,8 @@
 }
 
 .stat-card {
-  background: linear-gradient(135deg, #f8fbff 0%, #ffffff 100%);
-  border: 1px solid #eaf2f7;
+  background: linear-gradient(135deg, #f3f7fc 0%, #ffffff 100%);
+  border: 1px solid #d7e3f2;
   border-radius: 16px;
   padding: 20px;
   display: grid;
@@ -164,11 +164,11 @@
   width: 42px;
   height: 42px;
   border-radius: 14px;
-  background: rgba(0, 153, 255, 0.12);
+  background: rgba(46, 94, 153, 0.12);
   display: grid;
   place-items: center;
   font-size: 1.25rem;
-  color: #0099ff;
+  color: #2e5e99;
 }
 
 .stat-card__label {
@@ -188,7 +188,7 @@
   right: 16px;
   top: 16px;
   font-size: 0.8rem;
-  color: #0099ff;
+  color: #2e5e99;
 }
 
 .orders-table__wrapper {
@@ -209,7 +209,7 @@
 }
 
 .orders-table tbody tr:hover {
-  background: #f8fbff;
+  background: #f3f7fc;
 }
 
 .status-tag {
@@ -222,8 +222,8 @@
 }
 
 .status-tag--progress {
-  background: rgba(0, 153, 255, 0.12);
-  color: #0099ff;
+  background: rgba(46, 94, 153, 0.12);
+  color: #2e5e99;
 }
 
 .status-tag--awaiting {
@@ -257,7 +257,7 @@
 
 .saved-card {
   background: #ffffff;
-  border: 1px solid #eaf2f7;
+  border: 1px solid #d7e3f2;
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
@@ -298,7 +298,7 @@
   align-items: center;
   gap: 6px;
   font-size: 0.85rem;
-  color: #0099ff;
+  color: #2e5e99;
 }
 
 .message-list {
@@ -313,7 +313,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid #eaf2f7;
+  border: 1px solid #d7e3f2;
   border-radius: 14px;
   padding: 12px 16px;
   background: #ffffff;
@@ -337,7 +337,7 @@
   width: 28px;
   height: 28px;
   border-radius: 999px;
-  background: #0099ff;
+  background: #2e5e99;
   color: #ffffff;
   font-weight: 600;
 }
@@ -350,11 +350,11 @@
 
 .quick-actions__btn {
   border-radius: 14px;
-  border: 1px solid #eaf2f7;
+  border: 1px solid #d7e3f2;
   background: #ffffff;
   padding: 12px;
   font-weight: 600;
-  color: #0099ff;
+  color: #2e5e99;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
   cursor: pointer;
 }
@@ -368,7 +368,7 @@
 .orders-filters select {
   height: 42px;
   border-radius: 12px;
-  border: 1px solid #eaf2f7;
+  border: 1px solid #d7e3f2;
   padding: 0 14px;
   background: #ffffff;
 }
@@ -382,17 +382,17 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid #eaf2f7;
+  border: 1px solid #d7e3f2;
   border-radius: 12px;
   padding: 12px 16px;
-  background: rgba(0, 153, 255, 0.05);
+  background: rgba(46, 94, 153, 0.05);
 }
 
 .ghost-btn {
   border-radius: 12px;
-  border: 1px solid #eaf2f7;
+  border: 1px solid #d7e3f2;
   background: #ffffff;
-  color: #0099ff;
+  color: #2e5e99;
   padding: 8px 14px;
 }
 
@@ -411,19 +411,19 @@
   width: 32px;
   height: 32px;
   border-radius: 999px;
-  background: rgba(0, 153, 255, 0.12);
-  color: #0099ff;
+  background: rgba(46, 94, 153, 0.12);
+  color: #2e5e99;
   display: grid;
   place-items: center;
   font-weight: 600;
 }
 
 .requests-empty {
-  border: 1px dashed #eaf2f7;
+  border: 1px dashed #d7e3f2;
   border-radius: 16px;
   padding: 24px;
   text-align: center;
-  background: rgba(234, 246, 255, 0.4);
+  background: rgba(231, 240, 250, 0.4);
   display: grid;
   gap: 12px;
 }
@@ -482,7 +482,7 @@
 }
 
 .payment-card {
-  border: 1px solid #eaf2f7;
+  border: 1px solid #d7e3f2;
   border-radius: 16px;
   background: #ffffff;
   padding: 16px;
@@ -494,8 +494,8 @@
 
 .payment-card--add {
   border-style: dashed;
-  border-color: #0099ff;
-  color: #0099ff;
+  border-color: #2e5e99;
+  color: #2e5e99;
   justify-content: center;
 }
 
@@ -506,7 +506,7 @@
 }
 
 .team-card {
-  border: 1px solid #eaf2f7;
+  border: 1px solid #d7e3f2;
   border-radius: 16px;
   padding: 16px;
   display: flex;
@@ -519,8 +519,8 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: rgba(0, 153, 255, 0.15);
-  color: #0099ff;
+  background: rgba(46, 94, 153, 0.15);
+  color: #2e5e99;
   display: grid;
   place-items: center;
   font-weight: 700;
@@ -533,7 +533,7 @@
 }
 
 .settings-card {
-  border: 1px solid #eaf2f7;
+  border: 1px solid #d7e3f2;
   border-radius: 16px;
   padding: 16px;
   background: #ffffff;
@@ -543,7 +543,7 @@
 
 .table-link,
 .text-link {
-  color: #0099ff;
+  color: #2e5e99;
   background: none;
   border: none;
   font-weight: 600;

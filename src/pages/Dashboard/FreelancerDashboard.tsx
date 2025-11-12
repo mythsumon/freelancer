@@ -301,8 +301,8 @@ export const FreelancerDashboard = () => {
                 <desc>Earnings in USD by month</desc>
                 <defs>
                   <linearGradient id="revenueGradient" x1="0" x2="0" y1="0" y2="1">
-                    <stop offset="0%" stopColor="rgba(0,153,255,0.45)" />
-                    <stop offset="100%" stopColor="rgba(0,153,255,0.05)" />
+                    <stop offset="0%" stopColor="rgba(46,94,153,0.45)" />
+                    <stop offset="100%" stopColor="rgba(46,94,153,0.05)" />
                   </linearGradient>
                 </defs>
                 <polygon
@@ -313,7 +313,7 @@ export const FreelancerDashboard = () => {
                 <polyline
                   points={points}
                   fill="none"
-                  stroke="#0099ff"
+                  stroke="#2e5e99"
                   strokeWidth={3}
                   strokeLinecap="round"
                 />

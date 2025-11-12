@@ -14,7 +14,7 @@
   position: absolute;
   inset: 0;
   height: 260px;
-  background: linear-gradient(120deg, #eaf6ff, #d6eeff, #c7e7ff);
+  background: linear-gradient(120deg, #e7f0fa, #d6eeff, #c7e7ff);
   z-index: 0;
 }
 
@@ -25,7 +25,7 @@
   margin: 0 auto;
   border-radius: 24px;
   background: #ffffff;
-  border: 1px solid #eaf2f7;
+  border: 1px solid #d7e3f2;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
   padding: 48px;
   display: grid;
@@ -44,7 +44,7 @@
   border-radius: 50%;
   object-fit: cover;
   border: 6px solid #ffffff;
-  box-shadow: 0 18px 40px rgba(0, 153, 255, 0.2);
+  box-shadow: 0 18px 40px rgba(46, 94, 153, 0.2);
 }
 
 .freelancers-hero__content {
@@ -56,8 +56,8 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(0, 153, 255, 0.12);
-  color: #0099ff;
+  background: rgba(46, 94, 153, 0.12);
+  color: #2e5e99;
   padding: 0.45rem 1rem;
   border-radius: 999px;
   font-weight: 600;
@@ -97,14 +97,14 @@
 }
 
 .freelancers-btn:focus-visible {
-  outline: 3px solid rgba(0, 153, 255, 0.24);
+  outline: 3px solid rgba(46, 94, 153, 0.24);
   outline-offset: 3px;
 }
 
 .freelancers-btn--primary {
-  background: #0099ff;
+  background: #2e5e99;
   color: #ffffff;
-  box-shadow: 0 10px 24px rgba(0, 153, 255, 0.32);
+  box-shadow: 0 10px 24px rgba(46, 94, 153, 0.32);
 }
 
 .freelancers-btn--primary:hover {
@@ -114,12 +114,12 @@
 
 .freelancers-btn--ghost {
   background: #ffffff;
-  color: #0099ff;
-  border-color: #eaf2f7;
+  color: #2e5e99;
+  border-color: #d7e3f2;
 }
 
 .freelancers-btn--ghost:hover {
-  background: #eaf6ff;
+  background: #e7f0fa;
 }
 
 .freelancers-btn--outline {
@@ -143,7 +143,7 @@
   display: block;
   font-size: 1.5rem;
   font-weight: 700;
-  color: #0099ff;
+  color: #2e5e99;
 }
 
 .freelancers-hero__label {
@@ -159,7 +159,7 @@
 .freelancers-about__card {
   border-radius: 24px;
   background: #ffffff;
-  border: 1px solid #eaf2f7;
+  border: 1px solid #d7e3f2;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
   padding: 48px;
   display: grid;
@@ -185,8 +185,8 @@
 .freelancers-about__chips span {
   padding: 0.45rem 1.25rem;
   border-radius: 999px;
-  background: rgba(0, 153, 255, 0.08);
-  color: #0099ff;
+  background: rgba(46, 94, 153, 0.08);
+  color: #2e5e99;
   font-weight: 600;
   font-size: 0.9rem;
 }
@@ -222,7 +222,7 @@
 .freelancers-feature-card {
   background: #ffffff;
   border-radius: 20px;
-  border: 1px solid #eaf2f7;
+  border: 1px solid #d7e3f2;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
   padding: 28px;
   display: grid;
@@ -233,7 +233,7 @@
   width: 48px;
   height: 48px;
   border-radius: 16px;
-  background: rgba(0, 153, 255, 0.12);
+  background: rgba(46, 94, 153, 0.12);
   display: grid;
   place-items: center;
   font-size: 1.5rem;
@@ -251,7 +251,7 @@
 .freelancers-steps {
   display: grid;
   gap: 32px;
-  border-left: 2px solid #eaf2f7;
+  border-left: 2px solid #d7e3f2;
   padding-left: 32px;
 }
 
@@ -267,8 +267,8 @@
   width: 56px;
   height: 56px;
   border-radius: 16px;
-  background: rgba(0, 153, 255, 0.08);
-  color: #0099ff;
+  background: rgba(46, 94, 153, 0.08);
+  color: #2e5e99;
   font-weight: 700;
 }
 
@@ -289,7 +289,7 @@
 
 .freelancers-tools__card {
   border-radius: 20px;
-  border: 1px solid #eaf2f7;
+  border: 1px solid #d7e3f2;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
   background: #ffffff;
   padding: 28px;
@@ -318,7 +318,7 @@
 .freelancers-testimonial {
   background: #ffffff;
   border-radius: 20px;
-  border: 1px solid #eaf2f7;
+  border: 1px solid #d7e3f2;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
   padding: 28px;
   display: grid;
@@ -355,10 +355,10 @@
 }
 
 .freelancers-cta__inner {
-  background: linear-gradient(120deg, #0099ff, #66c3ff);
+  background: linear-gradient(120deg, #2e5e99, #7ba4d0);
   color: #ffffff;
   border-radius: 28px;
-  box-shadow: 0 18px 40px rgba(0, 153, 255, 0.24);
+  box-shadow: 0 18px 40px rgba(46, 94, 153, 0.24);
   padding: 48px;
   text-align: center;
   display: grid;
@@ -387,7 +387,7 @@
 }
 
 .freelancers-faq__item {
-  border: 1px solid #eaf2f7;
+  border: 1px solid #d7e3f2;
   border-radius: 16px;
   background: #ffffff;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
@@ -406,7 +406,7 @@
 }
 
 .freelancers-faq__item[open] summary {
-  color: #0099ff;
+  color: #2e5e99;
 }
 
 .freelancers-faq__item p {

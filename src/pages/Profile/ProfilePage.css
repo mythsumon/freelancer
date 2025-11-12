@@ -1,11 +1,11 @@
 :root {
-  --brand: #0099ff;
-  --brand-weak: #eaf6ff;
-  --brand-weak-strong: #66c3ff;
+  --brand: #2e5e99;
+  --brand-weak: #e7f0fa;
+  --brand-weak-strong: #7ba4d0;
   --surface: #ffffff;
   --text: #0a0a0a;
   --text-sub: #707070;
-  --divider: #eaf2f7;
+  --divider: #d7e3f2;
   --radius-lg: 16px;
   --radius-md: 12px;
   --shadow-soft: 0 10px 24px rgba(0, 0, 0, 0.06);
@@ -32,7 +32,7 @@
 
 .profile-hero {
   position: relative;
-  background: linear-gradient(135deg, rgba(0, 153, 255, 0.12), rgba(234, 246, 255, 0.6));
+  background: linear-gradient(135deg, rgba(46, 94, 153, 0.12), rgba(231, 240, 250, 0.6));
   padding-bottom: 96px;
   overflow: hidden;
 }
@@ -40,8 +40,8 @@
 .profile-hero__background {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at top right, rgba(0, 153, 255, 0.25), transparent 55%),
-    radial-gradient(circle at bottom left, rgba(234, 246, 255, 0.65), transparent 55%);
+  background: radial-gradient(circle at top right, rgba(46, 94, 153, 0.25), transparent 55%),
+    radial-gradient(circle at bottom left, rgba(231, 240, 250, 0.65), transparent 55%);
   z-index: 0;
 }
 
@@ -91,7 +91,7 @@
 }
 
 .profile-badge {
-  background: rgba(0, 153, 255, 0.1);
+  background: rgba(46, 94, 153, 0.1);
   color: var(--brand);
   padding: 0.35rem 0.75rem;
   border-radius: 999px;
@@ -159,7 +159,7 @@
 }
 
 .profile-btn:focus-visible {
-  outline: 3px solid rgba(0, 153, 255, 0.24);
+  outline: 3px solid rgba(46, 94, 153, 0.24);
   outline-offset: 3px;
 }
 
@@ -217,7 +217,7 @@
 }
 
 .profile-social__link:hover {
-  background: rgba(0, 153, 255, 0.18);
+  background: rgba(46, 94, 153, 0.18);
 }
 
 .profile-summary {
@@ -264,7 +264,7 @@
 }
 
 .profile-chip--soft {
-  background: rgba(0, 153, 255, 0.1);
+  background: rgba(46, 94, 153, 0.1);
 }
 
 .profile-info-card dl {
@@ -295,7 +295,7 @@
   gap: 8px;
   padding: 0.5rem 1rem;
   border-radius: 999px;
-  background: rgba(0, 153, 255, 0.1);
+  background: rgba(46, 94, 153, 0.1);
   color: var(--brand);
   font-weight: 600;
 }
@@ -353,7 +353,7 @@
 }
 
 .portfolio-card:focus-visible {
-  outline: 3px solid rgba(0, 153, 255, 0.24);
+  outline: 3px solid rgba(46, 94, 153, 0.24);
   outline-offset: 3px;
 }
 
@@ -377,7 +377,7 @@
 .portfolio-card__overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 153, 255, 0.5);
+  background: rgba(46, 94, 153, 0.5);
   color: var(--surface);
   display: grid;
   place-items: center;
@@ -781,7 +781,7 @@
   position: sticky;
   bottom: 0;
   background: rgba(255, 255, 255, 0.95);
-  border-top: 1px solid rgba(0, 153, 255, 0.1);
+  border-top: 1px solid rgba(46, 94, 153, 0.1);
   box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.08);
   padding: 12px 24px;
   display: none;

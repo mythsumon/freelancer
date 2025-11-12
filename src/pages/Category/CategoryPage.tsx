@@ -268,7 +268,6 @@ export const CategoryPage = () => {
   const [sortBy, setSortBy] = useState("popularity");
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [heroIndex, setHeroIndex] = useState(0);
 
   const tagIdMap = useMemo(() => {
     const map = new Map<string, number>();
@@ -325,36 +324,6 @@ export const CategoryPage = () => {
     }, 800);
     return () => clearTimeout(timer);
   }, []);
-
-  const heroSlides = useMemo(() => (
-    [
-      {
-        id: "hero-1",
-        title: "Designers delivering global brands",
-        subtitle: "Collaborate with senior creatives trusted by startups and Fortune 500 teams.",
-        image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1400&q=80",
-      },
-      {
-        id: "hero-2",
-        title: "UI/UX systems built with speed",
-        subtitle: "Ship product design sprints, audit flows, and launch prototypes in days.",
-        image: "https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=1400&q=80",
-      },
-      {
-        id: "hero-3",
-        title: "Creative assets ready for any channel",
-        subtitle: "Motion, social packs, and marketing visuals tailored for global campaigns.",
-        image: "https://images.unsplash.com/photo-1501526011028-5c6a284e1d86?auto=format&fit=crop&w=1400&q=80",
-      },
-    ]
-  ), []);
-
-  useEffect(() => {
-    const interval = window.setInterval(() => {
-      setHeroIndex((prev) => (prev + 1) % heroSlides.length);
-    }, 4500);
-    return () => window.clearInterval(interval);
-  }, [heroSlides.length]);
 
   const toggleSubcategory = (id: number) => {
     setSelectedSubcategories(prev => 
@@ -422,56 +391,10 @@ export const CategoryPage = () => {
                 </button>
               ))}
             </div>
-          </div>
 
-          <div className="category-hero">
-            <div className="category-hero__slider">
-              {heroSlides.map((slide, index) => (
-                <div
-                  key={slide.id}
-                  className={`category-hero__slide ${index === heroIndex ? "category-hero__slide--active" : ""}`}
-                  aria-hidden={index !== heroIndex}
-                >
-                  <img src={slide.image} alt={slide.title} loading="lazy" />
-                  <div className="category-hero__overlay" />
-                  <div className="category-hero__content">
-                    <h2>{slide.title}</h2>
-                    <p>{slide.subtitle}</p>
-                    <a href="#results" className="category-hero__cta" aria-label="Browse design services">
-                      Browse services
-                    </a>
-                  </div>
-                </div>
-              ))}
-              <button
-                type="button"
-                className="category-hero__control category-hero__control--prev"
-                aria-label="Previous hero slide"
-                onClick={() => setHeroIndex((prev) => (prev - 1 + heroSlides.length) % heroSlides.length)}
-              >
-                ◀
-              </button>
-              <button
-                type="button"
-                className="category-hero__control category-hero__control--next"
-                aria-label="Next hero slide"
-                onClick={() => setHeroIndex((prev) => (prev + 1) % heroSlides.length)}
-              >
-                ▶
-              </button>
-            </div>
-            <div className="category-hero__dots" role="tablist" aria-label="Design hero slides">
-              {heroSlides.map((slide, index) => (
-                <button
-                  key={slide.id}
-                  type="button"
-                  className={`category-hero__dot ${index === heroIndex ? "category-hero__dot--active" : ""}`}
-                  aria-label={`View hero slide ${index + 1}`}
-                  aria-pressed={index === heroIndex}
-                  onClick={() => setHeroIndex(index)}
-                />
-              ))}
-            </div>
+            <a href="#results" className="category-info__cta" aria-label="Browse design services">
+              Browse services
+            </a>
           </div>
         </div>
       </section>
