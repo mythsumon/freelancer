@@ -268,6 +268,15 @@ export const CategoryPage = () => {
   const [sortBy, setSortBy] = useState("popularity");
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [heroIndex, setHeroIndex] = useState(0);
+  const heroBackgrounds = useMemo(
+    () => [
+      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1523475472560-d2df97ec485b?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1448932223592-d1fc686e76ea?auto=format&fit=crop&w=1600&q=80",
+    ],
+    []
+  );
 
   const tagIdMap = useMemo(() => {
     const map = new Map<string, number>();
@@ -374,12 +383,20 @@ export const CategoryPage = () => {
       {/* Category Header */}
       <section className="category-header">
         <div className="container">
+          <div className="category-hero-background" style={{ backgroundImage: `url(${heroBackgrounds[heroIndex % heroBackgrounds.length]})` }}>
+            <div className="category-hero-background__overlay" />
+          </div>
           <nav className="breadcrumbs">
             <a href="/">Home</a>
             <span className="separator">›</span>
             <span className="current">Design</span>
           </nav>
           
+          <div className="category-branding">
+            <div className="category-logo">Kmong Design</div>
+            <button type="button" className="category-branding__cta">Explore Branding</button>
+          </div>
+
           <div className="category-info">
             <h1>Design</h1>
             <p className="category-description">Logos, UI/UX, banners, and more. Work with experienced designers trusted by global brands.</p>
@@ -395,6 +412,39 @@ export const CategoryPage = () => {
             <a href="#results" className="category-info__cta" aria-label="Browse design services">
               Browse services
             </a>
+
+            {heroBackgrounds.length > 1 && (
+              <div className="category-hero-controls">
+                <button
+                  type="button"
+                  aria-label="Previous hero background"
+                  className="category-hero-controls__arrow"
+                  onClick={() => setHeroIndex((prev) => (prev - 1 + heroBackgrounds.length) % heroBackgrounds.length)}
+                >
+                  ◀
+                </button>
+                <div className="category-hero-dots" role="tablist" aria-label="Category hero backgrounds">
+                  {heroBackgrounds.map((_, index) => (
+                    <button
+                      key={`category-hero-dot-${index}`}
+                      type="button"
+                      className={`category-hero-dot ${index === heroIndex ? "is-active" : ""}`}
+                      aria-label={`Go to hero background ${index + 1}`}
+                      aria-pressed={index === heroIndex}
+                      onClick={() => setHeroIndex(index)}
+                    />
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  aria-label="Next hero background"
+                  className="category-hero-controls__arrow"
+                  onClick={() => setHeroIndex((prev) => (prev + 1) % heroBackgrounds.length)}
+                >
+                  ▶
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </section>
