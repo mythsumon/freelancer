@@ -1194,11 +1194,12 @@ export const HomePage = () => {
       <section style={{ padding: "64px 0" }}>
         <div className="container">
           <div style={{
-            display: "flex",
+            display: viewport === "mobile" ? "grid" : "flex",
             alignItems: "center",
-            justifyContent: "space-between",
+            justifyContent: viewport === "mobile" ? "center" : "space-between",
             gap: "16px",
-            marginBottom: "24px"
+            marginBottom: "24px",
+            textAlign: viewport === "mobile" ? "center" : "left"
           }}>
           <h2 style={{
             fontSize: "clamp(1.8rem, 3vw, 2.2rem)",
@@ -1211,14 +1212,19 @@ export const HomePage = () => {
               style={{
                 color: "#2e5e99",
                 fontWeight: 600,
-                textDecoration: "none"
+                textDecoration: "none",
+                marginTop: viewport === "mobile" ? "8px" : 0,
+                justifySelf: viewport === "mobile" ? "center" : "flex-end"
               }}
             >
               {t("See more")} →
             </Link>
           </div>
           
-          <div className="home-section-slider">
+          <div
+            className="home-section-slider"
+            style={{ padding: viewport === "mobile" ? "0 4px 16px" : "0 16px 16px" }}
+          >
             <div
               className="home-section-slider__track"
               style={{ transform: `translateX(-${featuredSlideIndex * 100}%)` }}
@@ -1230,6 +1236,7 @@ export const HomePage = () => {
                       display: "grid",
                       gap: "24px",
                       gridTemplateColumns: `repeat(${slide.length}, minmax(0, 1fr))`,
+                      alignItems: "stretch"
                     }}
                   >
                     {slide.map((freelancer) => (
@@ -1245,7 +1252,8 @@ export const HomePage = () => {
                           textDecoration: "none",
                           color: "inherit",
                           transition: "transform 0.24s ease, box-shadow 0.24s ease, border 0.24s ease",
-                          border: "1px solid rgba(46,94,153,0.08)"
+                          border: "1px solid rgba(46,94,153,0.08)",
+                          height: "100%"
                         }}
                         onMouseEnter={(event) => {
                           event.currentTarget.style.transform = "translateY(-8px)";
@@ -1384,7 +1392,10 @@ export const HomePage = () => {
       {/* Testimonials */}
       <section style={{ padding: "64px 0" }}>
         <div className="container">
-          <div className="home-section-slider home-section-slider--testimonials">
+          <div
+            className="home-section-slider home-section-slider--testimonials"
+            style={{ padding: viewport === "mobile" ? "0 4px 16px" : "0 16px 16px" }}
+          >
             <div
               className="home-section-slider__track"
               style={{ transform: `translateX(-${testimonialSlideIndex * 100}%)` }}
@@ -1395,7 +1406,8 @@ export const HomePage = () => {
                     style={{
                       display: "grid",
                       gap: "24px",
-                      gridTemplateColumns: `repeat(${slide.length}, minmax(0, 1fr))`
+                      gridTemplateColumns: `repeat(${slide.length}, minmax(0, 1fr))`,
+                      alignItems: "stretch"
                     }}
                   >
                     {slide.map((testimonial) => (
@@ -1405,7 +1417,11 @@ export const HomePage = () => {
                           background: "#ffffff",
                           borderRadius: "16px",
                           padding: "40px",
-                          boxShadow: "0 10px 24px rgba(0,0,0,0.06)"
+                          boxShadow: "0 10px 24px rgba(0,0,0,0.06)",
+                          height: "100%",
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "space-between"
                         }}
                       >
                         <blockquote style={{
