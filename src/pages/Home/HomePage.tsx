@@ -6,6 +6,18 @@ import { UniversalSelect } from "../../components/inputs/UniversalSelect";
 import { useLanguage } from "../../i18n/LanguageProvider";
 import "./HomePage.css";
 
+const chunkItems = <T,>(items: T[], size: number): T[][] => {
+  if (size <= 0) {
+    return [];
+  }
+
+  const chunks: T[][] = [];
+  for (let index = 0; index < items.length; index += size) {
+    chunks.push(items.slice(index, index + size));
+  }
+  return chunks;
+};
+
 type CategoryVariant = "standard" | "stack" | "isometric";
 
 interface CategoryItem {
@@ -116,6 +128,8 @@ export const HomePage = () => {
   const [viewport, setViewport] = useState<"desktop" | "tablet" | "mobile">("desktop");
   const [heroPanelTab, setHeroPanelTab] = useState<"talent" | "deals" | "testimonials">("talent");
   const [heroPanelIndex, setHeroPanelIndex] = useState(0);
+  const [featuredSlideIndex, setFeaturedSlideIndex] = useState(0);
+  const [testimonialSlideIndex, setTestimonialSlideIndex] = useState(0);
   const heroPanelHoverRef = useRef(false);
   const ctaSectionRef = useRef<HTMLDivElement | null>(null);
   const ctaFrameRef = useRef<number | null>(null);
@@ -297,6 +311,47 @@ export const HomePage = () => {
     { id: 2, quote: "As a freelancer, Kmong has been instrumental in growing my client base globally. Highly recommended!", author: "Priya Sharma", role: "Freelance Developer", rating: 4.9 },
     { id: 3, quote: "The secure payment system gives me peace of mind when working with international talent.", author: "Thomas Anderson", role: "Marketing Director", rating: 4.8 },
   ];
+
+  const featuredPerView = useMemo(() => {
+    if (viewport === "desktop") return 3;
+    if (viewport === "tablet") return 2;
+    return 1;
+  }, [viewport]);
+
+  const testimonialPerView = useMemo(() => (viewport === "desktop" ? 2 : 1), [viewport]);
+
+  const featuredSlides = useMemo(() => chunkItems(freelancers, featuredPerView), [freelancers, featuredPerView]);
+  const testimonialSlides = useMemo(() => chunkItems(testimonials, testimonialPerView), [testimonials, testimonialPerView]);
+
+  useEffect(() => {
+    setFeaturedSlideIndex((prev) => {
+      if (featuredSlides.length === 0) return 0;
+      return Math.min(prev, featuredSlides.length - 1);
+    });
+  }, [featuredSlides.length]);
+
+  useEffect(() => {
+    setTestimonialSlideIndex((prev) => {
+      if (testimonialSlides.length === 0) return 0;
+      return Math.min(prev, testimonialSlides.length - 1);
+    });
+  }, [testimonialSlides.length]);
+
+  const handleFeaturedNavigate = (direction: 1 | -1) => {
+    if (featuredSlides.length <= 1) return;
+    setFeaturedSlideIndex((prev) => {
+      const next = (prev + direction + featuredSlides.length) % featuredSlides.length;
+      return next;
+    });
+  };
+
+  const handleTestimonialNavigate = (direction: 1 | -1) => {
+    if (testimonialSlides.length <= 1) return;
+    setTestimonialSlideIndex((prev) => {
+      const next = (prev + direction + testimonialSlides.length) % testimonialSlides.length;
+      return next;
+    });
+  };
 
   const blogPosts = [
     { id: 1, title: "10 Tips for Managing Remote Teams", excerpt: "Learn how to effectively lead distributed teams across time zones." },
@@ -1163,132 +1218,165 @@ export const HomePage = () => {
             </Link>
           </div>
           
-          <div style={{
-            position: "relative",
-            overflow: "hidden"
-          }}>
-            <div style={{
-              display: "grid",
-              gridAutoFlow: "column",
-              gridAutoColumns: "minmax(280px, 1fr)",
-              gap: "24px",
-              overflowX: "auto",
-              padding: "0 16px 16px",
-              scrollSnapType: "x mandatory",
-              scrollbarWidth: "thin",
-              justifyContent: "center",
-              alignItems: "stretch"
-            }}>
-              {freelancers.map((freelancer) => (
-                <Link
-                  to="/freelancer/ava-kim"
-                  key={freelancer.id} 
-                  style={{
-                    scrollSnapAlign: "start",
-                    background: "#ffffff",
-                    borderRadius: "16px",
-                    boxShadow: "0 10px 24px rgba(0,0,0,0.06)",
-                    overflow: "hidden",
-                    position: "relative",
-                    textDecoration: "none",
-                    color: "inherit",
-                    transition: "transform 0.24s ease, box-shadow 0.24s ease, border 0.24s ease",
-                    border: "1px solid rgba(46,94,153,0.08)"
-                  }}
-                  onMouseEnter={(event) => {
-                    event.currentTarget.style.transform = "translateY(-8px)";
-                    event.currentTarget.style.boxShadow = "0 20px 48px rgba(46, 94, 153, 0.18)";
-                    event.currentTarget.style.border = "1px solid rgba(46,94,153,0.25)";
-                  }}
-                  onMouseLeave={(event) => {
-                    event.currentTarget.style.transform = "translateY(0)";
-                    event.currentTarget.style.boxShadow = "0 10px 24px rgba(0,0,0,0.06)";
-                    event.currentTarget.style.border = "1px solid rgba(46,94,153,0.08)";
-                  }}
-                >
-                  <div style={{ position: "relative" }}>
-                    <img
-                      src={freelancer.coverImage}
-                      alt={`${freelancer.name} portfolio preview`}
-                      style={{
-                        width: "100%",
-                        height: "180px",
-                        objectFit: "cover",
-                        objectPosition: "center",
-                        display: "block",
-                      }}
-                      loading="lazy"
-                    />
-                    <div style={{
-                      position: "absolute",
-                      bottom: "-36px",
-                      left: "24px",
-                      width: "72px",
-                      height: "72px",
-                      borderRadius: "50%",
-                      border: "4px solid #ffffff",
-                      overflow: "hidden",
-                      boxShadow: "0 10px 24px rgba(46,94,153,0.25)",
-                    }}>
-                      <img
-                        src={freelancer.avatar}
-                        alt={`${freelancer.name} avatar`}
+          <div className="home-section-slider">
+            <div
+              className="home-section-slider__track"
+              style={{ transform: `translateX(-${featuredSlideIndex * 100}%)` }}
+            >
+              {featuredSlides.map((slide, slideIndex) => (
+                <div key={`featured-slide-${slideIndex}`} className="home-section-slider__slide">
+                  <div
+                    style={{
+                      display: "grid",
+                      gap: "24px",
+                      gridTemplateColumns: `repeat(${slide.length}, minmax(0, 1fr))`,
+                    }}
+                  >
+                    {slide.map((freelancer) => (
+                      <Link
+                        to="/freelancer/ava-kim"
+                        key={freelancer.id}
                         style={{
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "cover",
+                          background: "#ffffff",
+                          borderRadius: "16px",
+                          boxShadow: "0 10px 24px rgba(0,0,0,0.06)",
+                          overflow: "hidden",
+                          position: "relative",
+                          textDecoration: "none",
+                          color: "inherit",
+                          transition: "transform 0.24s ease, box-shadow 0.24s ease, border 0.24s ease",
+                          border: "1px solid rgba(46,94,153,0.08)"
                         }}
-                        loading="lazy"
-                      />
-                    </div>
+                        onMouseEnter={(event) => {
+                          event.currentTarget.style.transform = "translateY(-8px)";
+                          event.currentTarget.style.boxShadow = "0 20px 48px rgba(46, 94, 153, 0.18)";
+                          event.currentTarget.style.border = "1px solid rgba(46,94,153,0.25)";
+                        }}
+                        onMouseLeave={(event) => {
+                          event.currentTarget.style.transform = "translateY(0)";
+                          event.currentTarget.style.boxShadow = "0 10px 24px rgba(0,0,0,0.06)";
+                          event.currentTarget.style.border = "1px solid rgba(46,94,153,0.08)";
+                        }}
+                      >
+                        <div style={{ position: "relative" }}>
+                          <img
+                            src={freelancer.coverImage}
+                            alt={`${freelancer.name} portfolio preview`}
+                            style={{
+                              width: "100%",
+                              height: "180px",
+                              objectFit: "cover",
+                              objectPosition: "center",
+                              display: "block",
+                            }}
+                            loading="lazy"
+                          />
+                          <div style={{
+                            position: "absolute",
+                            bottom: "-36px",
+                            left: "24px",
+                            width: "72px",
+                            height: "72px",
+                            borderRadius: "50%",
+                            border: "4px solid #ffffff",
+                            overflow: "hidden",
+                            boxShadow: "0 10px 24px rgba(46,94,153,0.25)",
+                          }}>
+                            <img
+                              src={freelancer.avatar}
+                              alt={`${freelancer.name} avatar`}
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                              }}
+                              loading="lazy"
+                            />
+                          </div>
+                        </div>
+                        <div style={{
+                          padding: "calc(24px + 36px) 24px 24px",
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "12px",
+                          textAlign: "center"
+                        }}>
+                          <h3 style={{
+                            margin: 0,
+                            fontSize: "1.25rem"
+                          }}>
+                            {freelancer.name}
+                          </h3>
+                          <p style={{
+                            margin: 0,
+                            color: "#707070",
+                            fontSize: "0.95rem"
+                          }}>
+                            {freelancer.specialty}
+                          </p>
+                          <div style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: "6px",
+                            fontWeight: 600,
+                            color: "#2e5e99",
+                            justifyContent: "center"
+                          }}>
+                            <span style={{ color: "#ffb400" }}>★</span> {freelancer.rating}
+                          </div>
+                          <span style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            borderRadius: "999px",
+                            padding: "0.5rem 1.25rem",
+                            fontWeight: 500,
+                            background: "linear-gradient(140deg, #2e5e99 0%, #7ba4d0 100%)",
+                            color: "#ffffff",
+                            alignSelf: "center"
+                          }}>
+                            {t("View Profile")}
+                          </span>
+                        </div>
+                      </Link>
+                    ))}
                   </div>
-                  <div style={{
-                    padding: "calc(24px + 36px) 24px 24px",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "12px",
-                    textAlign: "center"
-                  }}>
-                    <h3 style={{
-                      margin: 0,
-                      fontSize: "1.25rem"
-                    }}>
-                      {freelancer.name}
-                    </h3>
-                    <p style={{
-                      margin: 0,
-                      color: "#707070",
-                      fontSize: "0.95rem"
-                    }}>
-                      {freelancer.specialty}
-                    </p>
-                    <div style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "6px",
-                      fontWeight: 600,
-                      color: "#2e5e99",
-                      justifyContent: "center"
-                    }}>
-                      <span style={{ color: "#ffb400" }}>★</span> {freelancer.rating}
-                    </div>
-                    <span style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      borderRadius: "999px",
-                      padding: "0.5rem 1.25rem",
-                      fontWeight: 500,
-                      background: "linear-gradient(140deg, #2e5e99 0%, #7ba4d0 100%)",
-                      color: "#ffffff",
-                      alignSelf: "center"
-                    }}>
-                      {t("View Profile")}
-                    </span>
-                  </div>
-                </Link>
+                </div>
               ))}
             </div>
+
+            {featuredSlides.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  className="home-section-slider__control home-section-slider__control--prev"
+                  aria-label={t("Previous featured freelancers slide")}
+                  onClick={() => handleFeaturedNavigate(-1)}
+                >
+                  ←
+                </button>
+                <button
+                  type="button"
+                  className="home-section-slider__control home-section-slider__control--next"
+                  aria-label={t("Next featured freelancers slide")}
+                  onClick={() => handleFeaturedNavigate(1)}
+                >
+                  →
+                </button>
+                <div className="home-section-slider__dots" role="tablist" aria-label={t("Featured freelancers slides")}>
+                  {featuredSlides.map((_, index) => (
+                    <button
+                      key={`featured-dot-${index}`}
+                      type="button"
+                      className={`home-section-slider__dot ${index === featuredSlideIndex ? "is-active" : ""}`}
+                      aria-label={`Go to featured freelancers slide ${index + 1}`}
+                      aria-pressed={index === featuredSlideIndex}
+                      onClick={() => setFeaturedSlideIndex(index)}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         </div>
       </section>
@@ -1296,83 +1384,132 @@ export const HomePage = () => {
       {/* Testimonials */}
       <section style={{ padding: "64px 0" }}>
         <div className="container">
-          <div style={{
-            display: "grid",
-            gap: "24px",
-            gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))"
-          }}>
-            {testimonials.map((testimonial) => (
-              <div 
-                key={testimonial.id} 
-                style={{
-                  background: "#ffffff",
-                  borderRadius: "16px",
-                  padding: "40px",
-                  boxShadow: "0 10px 24px rgba(0,0,0,0.06)"
-                }}
-              >
-                <blockquote style={{
-                  margin: 0,
-                  fontSize: "1.05rem",
-                  lineHeight: "1.5",
-                  position: "relative"
-                }}>
-                  "{testimonial.quote}"
-                </blockquote>
-                <div style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "16px",
-                  marginTop: "24px"
-                }}>
-                  <div style={{
-                    width: "48px",
-                    height: "48px",
-                    borderRadius: "50%",
-                    background: "#e7f0fa",
-                    color: "#2e5e99",
-                    display: "grid",
-                    placeItems: "center",
-                    fontWeight: 700
-                  }}>
-                    {testimonial.author.charAt(0)}
-                  </div>
-                  <div style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "4px"
-                  }}>
-                    <strong style={{
-                      margin: 0
-                    }}>
-                      {testimonial.author}
-                    </strong>
-                    <p style={{
-                      margin: 0,
-                      color: "#707070",
-                      fontSize: "0.9rem"
-                    }}>
-                      {testimonial.role}
-                    </p>
-                    <div style={{
-                      display: "flex",
-                      gap: "2px"
-                    }}>
-                      {[...Array(5)].map((_, i) => (
-                        <span 
-                          key={i} 
-                          style={{ 
-                            color: i < Math.floor(testimonial.rating) ? "#ffb400" : "#e0e0e0" 
-                          }}
-                        >
-                          ★
-                        </span>
-                      ))}
-                    </div>
+          <div className="home-section-slider home-section-slider--testimonials">
+            <div
+              className="home-section-slider__track"
+              style={{ transform: `translateX(-${testimonialSlideIndex * 100}%)` }}
+            >
+              {testimonialSlides.map((slide, slideIndex) => (
+                <div key={`testimonial-slide-${slideIndex}`} className="home-section-slider__slide">
+                  <div
+                    style={{
+                      display: "grid",
+                      gap: "24px",
+                      gridTemplateColumns: `repeat(${slide.length}, minmax(0, 1fr))`
+                    }}
+                  >
+                    {slide.map((testimonial) => (
+                      <article
+                        key={testimonial.id}
+                        style={{
+                          background: "#ffffff",
+                          borderRadius: "16px",
+                          padding: "40px",
+                          boxShadow: "0 10px 24px rgba(0,0,0,0.06)"
+                        }}
+                      >
+                        <blockquote style={{
+                          margin: 0,
+                          fontSize: "1.05rem",
+                          lineHeight: "1.5",
+                          position: "relative"
+                        }}>
+                          <span
+                            style={{
+                              position: "absolute",
+                              top: "-28px",
+                              left: 0,
+                              fontSize: "3rem",
+                              color: "#2e5e99"
+                            }}
+                            aria-hidden="true"
+                          >
+                            ❝
+                          </span>
+                          {testimonial.quote}
+                        </blockquote>
+                        <div style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "16px",
+                          marginTop: "32px"
+                        }}>
+                          <div style={{
+                            width: "48px",
+                            height: "48px",
+                            borderRadius: "50%",
+                            background: "#e7f0fa",
+                            color: "#2e5e99",
+                            display: "grid",
+                            placeItems: "center",
+                            fontWeight: 700
+                          }}>
+                            {testimonial.author.charAt(0)}
+                          </div>
+                          <div style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "4px"
+                          }}>
+                            <strong style={{ margin: 0 }}>{testimonial.author}</strong>
+                            <p style={{
+                              margin: 0,
+                              color: "#707070",
+                              fontSize: "0.9rem"
+                            }}>
+                              {testimonial.role}
+                            </p>
+                            <div style={{ display: "flex", gap: "2px" }}>
+                              {[...Array(5)].map((_, i) => (
+                                <span
+                                  key={i}
+                                  style={{ color: i < Math.floor(testimonial.rating) ? "#ffb400" : "#e0e0e0" }}
+                                >
+                                  ★
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </article>
+                    ))}
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+
+            {testimonialSlides.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  className="home-section-slider__control home-section-slider__control--prev"
+                  aria-label={t("Previous testimonial slide")}
+                  onClick={() => handleTestimonialNavigate(-1)}
+                >
+                  ←
+                </button>
+                <button
+                  type="button"
+                  className="home-section-slider__control home-section-slider__control--next"
+                  aria-label={t("Next testimonial slide")}
+                  onClick={() => handleTestimonialNavigate(1)}
+                >
+                  →
+                </button>
+                <div className="home-section-slider__dots" role="tablist" aria-label={t("Testimonial slides")}>
+                  {testimonialSlides.map((_, index) => (
+                    <button
+                      key={`testimonial-dot-${index}`}
+                      type="button"
+                      className={`home-section-slider__dot ${index === testimonialSlideIndex ? "is-active" : ""}`}
+                      aria-label={`Go to testimonial slide ${index + 1}`}
+                      aria-pressed={index === testimonialSlideIndex}
+                      onClick={() => setTestimonialSlideIndex(index)}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         </div>
       </section>
