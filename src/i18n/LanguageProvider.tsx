@@ -88,6 +88,7 @@ const translations: Record<SupportedLanguage, TranslationDictionary> = {
     "Editing, motion, and sound talent deliver cinematic stories.": "편집, 모션, 사운드 전문가가 영화 같은 스토리를 완성합니다.",
     "Discover video experts": "영상 전문가 알아보기",
     "Orbit studio setup": "Orbit 스튜디오 세팅",
+    "Global partner network": "글로벌 파트너 네트워크",
     "Product & Brand Designer": "프로덕트 & 브랜드 디자이너",
     "Featured Freelancers": "추천 프리랜서",
     "See more": "더 보기",

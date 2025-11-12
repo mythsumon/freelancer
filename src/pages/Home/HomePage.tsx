@@ -1162,30 +1162,21 @@ export const HomePage = () => {
       </section>
 
       {/* Premium Partner Showcase */}
-      <section
-        aria-label="Sponsored partner banners"
-        style={{
-          background: "#FFFFFF",
-          padding: "64px 0",
-        }}
-      >
-        <div className="container" style={{ maxWidth: "1280px", margin: "0 auto", padding: viewport === "mobile" ? "0 16px" : viewport === "tablet" ? "0 24px" : "0 32px", textAlign: "center" }}>
-          <h3 style={{ color: "#444", fontSize: viewport === "mobile" ? "0.95rem" : "1.05rem", fontWeight: 600, marginBottom: "24px", display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
+      <section className="partners-section" aria-label="Sponsored partner banners">
+        <div className="partners-section__inner">
+          <div className="partners-section__header">
             <img
               src="https://dummyimage.com/32x32/EAF6FF/0099FF&text=🌐"
-              alt="Global partners"
-              style={{ width: "28px", height: "28px", objectFit: "contain", borderRadius: "8px" }}
+              alt={t("Global partner network")}
+              className="partners-section__icon"
             />
-            Trusted by teams worldwide
-          </h3>
-          <BannerSlider items={bannerItems} />
-          <p style={{
-            marginTop: "40px",
-            color: "#555",
-            fontSize: viewport === "mobile" ? "0.95rem" : "1rem",
-            fontWeight: 500
-          }}>
-            Over <span style={{ color: "#2e5e99", fontWeight: 700 }}>12,000+</span> businesses collaborate on <span style={{ fontWeight: 700, color: "#2e5e99" }}>Kmong</span>
+            <h3 className="partners-section__title">{t("Trusted by teams worldwide")}</h3>
+          </div>
+          <div className="partners-section__slider">
+            <BannerSlider items={bannerItems} />
+          </div>
+          <p className="partners-section__footnote">
+            {t("Over")} <span className="partners-section__highlight">12,000+</span> {t("businesses collaborate on")} <span className="partners-section__highlight">Kmong</span>
           </p>
         </div>
       </section>
